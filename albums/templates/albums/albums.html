@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<head>
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block title %}Albums{% endblock %}
+{% block page_title %}All Albums{% endblock %}
+{% block subtitle %}All Albums created by users will appear here{% endblock %}
+</head>
+{% block content %}     
+
+    <body>
+        <div class="page-body">
+            <div>
+                <p>Photo albums will appear here somehow.</p>
+            </div>
+        </div>
+        
+    </body>
+    
+
+{% endblock %}
+{% block script %}<script src="{% static 'scripts/home.js' %}"></script>{% endblock %}
