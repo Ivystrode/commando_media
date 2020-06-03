@@ -20,16 +20,15 @@
         <div class="sidenav" id="sidenav">
             <div class="sidenav-links">
                 <a class="sidebutton normal" href="/home">Home</a>
-                <a class="sidebutton normal" href="/">Home</a>
                 <a class="sidebutton normal" href="/albums">Albums</a>
-                <a class="sidebutton normal" href="/">Home</a>
+                <a class="sidebutton normal" href="{% url 'profile' %}">Profile</a>
                 <div class="dropdown">
                     <a class="sidebutton" id="dropdownbuttonmain">Options</a>
                     <div id="mydropdown" class="dropdown-content">
                         <a class="sidebutton unused_dropbutton" href="#">Hide Menu</a>
                         <a class="sidebutton unused_dropbutton" href="#">Light Mode</a>
                         <a class="sidebutton unused_dropbutton" href="#">Contact</a>
-                        <a class="sidebutton dropbutton" href="/logout">Logout</a>
+                        <a class="sidebutton dropbutton" href="{% url 'logout' %}">Logout</a>
                     </div>
                 </div>
             </div>
@@ -37,10 +36,10 @@
 
         <div id="topbar">
             <div id="sitetitle">
-                <h1 id="main-title">IVYSTRODE</h1>
+                <h1 id="main-title">29 COMMANDO</h1>
             </div>
             <p id="sitesubtitle">
-                Logged in as: Username goes here
+                Logged in as: <a href="{% url 'profile' %}">{{user.username}} - {{user.details.role}}</a>
             </p>
         </div>
 
@@ -70,8 +69,17 @@
             </div>
 
 
-        
-
+                    
+            {% if messages %}
+            {% for message in messages %}
+            <div class="ui black message flashmessage">
+                <div class="header">
+                  INFO
+                </div>
+                <p>{{message}}</p>
+            </div>
+            {% endfor %}
+            {% endif %}
 
             {% block content %}
             {% endblock %}   

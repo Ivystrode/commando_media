@@ -65,7 +65,7 @@ a:hover {
 #main-title {
     color: rgb(141, 135, 135);
     padding: 5px;
-    max-width: 160px;
+    max-width: 260px;
 }
 
 #main-title:hover {
@@ -180,6 +180,10 @@ a:hover {
 }
 body {
     color: rgb(235, 226, 226);
+}
+.ui.message.flashmessage {
+    margin: 1%;
+    text-align: center;
 }
 
 .bg-image {

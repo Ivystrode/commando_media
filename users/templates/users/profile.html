@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<head>
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block title %}Profile - {{user.username}}{% endblock %}
+{% block page_title %}{{user.username}} - {{user.details.role}}{% endblock %}
+{% block subtitle %}Your Profile Page{% endblock %}
+</head>
+{% block content %}     
+
+    <body>
+        <div class="page-body">
+            <div>
+                <p>You are: {{user.username}} of group {{user.details.role}}</p>
+            </div>
+        </div>
+        
+    </body>
+    
+
+{% endblock %}
+{% block script %}<script src="{% static '' %}"></script>{% endblock %}
