@@ -1,18 +1,34 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from .models import Details
+from .models import Profile
 
 class UserRegisterForm(UserCreationForm):
-    role = forms.ChoiceField(choices=Details.roles, required=True)
+    role = forms.ChoiceField(choices=Profile.roles, required=True)
     email = forms.EmailField()
 
     class Meta:
         model = User # the model this form interacts with
         fields = ['username', 'email', 'password1', 'password2']
 
-class DetailsForm(forms.ModelForm):
+class ProfileForm(forms.ModelForm):
 
     class Meta:
-        model = Details
+        model = Profile
         fields = ['role']
+
+
+
+class UserUpdateForm(forms.ModelForm):
+    # role = forms.ChoiceField(choices=Profile.roles, required=True)
+    email = forms.EmailField()
+
+    class Meta:
+        model = User # the model this form interacts with
+        fields = ['username', 'email']
+
+class ProfileUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ['image', 'role']
