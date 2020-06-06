@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<head>
+{% block css %}
+<link rel="stylesheet" href="{% static '' %}">
+{% endblock %}
+
+{% block title %}Create Album{% endblock %}
+{% block page_title %}Create Album{% endblock %}
+{% block subtitle %}Choose a title for your album and upload photos{% endblock %}
+</head>
+{% block content %}     
+
+    <body>
+        <div class="page-body">
+            <div class="title-form">
+                <p></p>
+            </div>
+        </div>
+        
+    </body>
+    
+
+{% endblock %}
+{% block script %}<script src="{% static '' %}"></script>{% endblock %}

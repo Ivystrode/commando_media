@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<head>
+{% block css %}
+<link rel="stylesheet" href="{% static '' %}">
+{% endblock %}
+
+{% block title %}Picture Detail{% endblock %}
+{% block page_title %}Picture Title{% endblock %}
+{% block subtitle %}Picture Caption{% endblock %}
+</head>
+{% block content %}     
+
+    <body>
+        <div class="page-body">
+            <div>
+                <p>Selected picture will appear here</p>
+            </div>
+        </div>
+        
+    </body>
+    
+
+{% endblock %}
+{% block script %}<script src="{% static '' %}"></script>{% endblock %}

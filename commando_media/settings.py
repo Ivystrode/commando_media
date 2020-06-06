@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'main',
     'albums',
     'users',
+    'photo.apps.PhotoConfig',
+    'photologue',
+    'sortedm2m,'
 ]
 
 MIDDLEWARE = [
