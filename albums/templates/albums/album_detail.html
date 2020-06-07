@@ -5,9 +5,9 @@
 <link rel="stylesheet" href="{% static 'css/album_styles.css' %}">
 {% endblock %}
 
-{% block title %}Album Detail{% endblock %}
-{% block page_title %}Album Title{% endblock %}
-{% block subtitle %}Album Caption{% endblock %}
+{% block title %}{{album.title}}{% endblock %}
+{% block page_title %}{{album.title}}{% endblock %}
+{% block subtitle %}Created by {{album.created_by}} | {{album.time}}{% endblock %}
 </head>
 {% block content %}     
 
@@ -33,9 +33,10 @@
                         </div>
 
                         <div class="picture_caption">
-                            <p>{{picture.caption}} | {{picture.time}}</p>
-                            <p>Created by: {{picture.created_by}}</p>
-                            <p>Comments: {{picture.comments.all|length}}</p>
+                            <p>{{picture.caption}} | {{picture.time|date:'m-d-Y - Hi'}}</p>
+                            Created by: {{picture.created_by}}
+                            <br>
+                            Comments: {{picture.comments.all|length}}
                         </div>
 
                     </div>

@@ -6,9 +6,9 @@
 <link rel="stylesheet" href="{% static 'css/album_styles.css' %}">
 {% endblock %}
 
-{% block title %}Picture Detail{% endblock %}
-{% block page_title %}Picture Title{% endblock %}
-{% block subtitle %}Picture Caption{% endblock %}
+{% block title %}{{album.title}}{% endblock %}
+{% block page_title %}Picture by {{picture.created_by}}{% endblock %}
+{% block subtitle %}{{picture.caption}}{% endblock %}
 </head>
 {% block content %}     
 
@@ -19,24 +19,13 @@
                 <a href="/albums/{{album.slug}}" id="album-button" class="ui secondary button">Back</a>
             </div>
 
-            <div>
+            <div class="picture_detail">
                 <img src="{{picture.photo.url}}">
-                <p>{{picture.caption}}</p>
             </div>
         </div>
 
         <div id="comments-section" class="ui one column grid">
             <div class="column">
-                {% for comment in picture.comments.all %}
-                <div class="parent-comment">
-                    <div class="comment-author">
-                        <p><strong>{{comment.author}} | {{comment.time}}:</strong></p>
-                    </div>
-                    <div class="comment-body">
-                        <p>{{comment.body | linebreaks}}</p>
-                    </div>
-                </div>
-                {% endfor %}
                 <div id="comment-post-button">
                     <button class="ui secondary button" onclick="showCommentForm()">POST COMMENT</button>
                 </div>
@@ -48,6 +37,16 @@
                         <button type="submit" class="ui secondary button">Post</button>                        
                     </form>
                 </div>
+                {% for comment in picture.comments.all %}
+                <div class="parent-comment">
+                    <div class="comment-author">
+                        <p><strong>{{comment.author}} | {{comment.time}}:</strong></p>
+                    </div>
+                    <div class="comment-body">
+                        <p>{{comment.body | linebreaks}}</p>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         
     </body>

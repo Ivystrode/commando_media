@@ -23,6 +23,16 @@ a:hover {
     color: white;
 }
 
+#userloggedin {
+    color: inherit;
+}
+#userloggedin:visited {
+    color: inherit;
+}
+#userloggedin:hover {
+    color: white;
+}
+
 .sidebutton {
     padding: 6px 8px 6px 16px;
     text-decoration: none;

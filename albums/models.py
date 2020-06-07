@@ -92,7 +92,7 @@ class Comment(models.Model):
     time = models.DateTimeField(default=timezone.now())
 
     class Meta:
-        ordering = ['time']
+        ordering = ['-time']
 
         def __str__(self):
             return f'Comment by {self.author}: {self.body}'

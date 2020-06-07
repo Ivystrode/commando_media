@@ -33,8 +33,9 @@
 
                         <div class="album_title">
                             <p>{{album.title}}</p>
-                            <p>Created by: {{album.created_by}}</p>
-                            <p>Date: {{album.time}}</p>
+                            Created by: {{album.created_by}}
+                            <br>
+                            Pictures: {{album.photos.all | length}}
                         </div>
 
                     </div>

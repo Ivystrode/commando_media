@@ -31,6 +31,9 @@ def create_album(request):
 
             new_album.save()
 
+            new_photo = AlbumPhoto.objects.create(album=new_album, photo=new_album.coverpic, thumb=new_album.coverpic, caption='Album Cover', created_by=request.user)
+            new_photo.save()
+
             print("saved")
 
             albumname = form.cleaned_data.get('title')
@@ -94,6 +97,7 @@ def add_photo(request, slug):
 
             new_photo.save()
             print(f"saved {new_photo.caption} to {new_photo.album.title}")
+            return redirect(f'/albums/{album.slug}')
 
     else:
         form = PhotoUploadForm()
