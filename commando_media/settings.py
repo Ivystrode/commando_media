@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'albums',
     'users',
     # 'photo.apps.PhotoConfig',
-    'photologue',
+    # 'photologue',
     # 'sortedm2m,'
 ]
 

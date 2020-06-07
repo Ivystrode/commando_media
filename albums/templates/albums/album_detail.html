@@ -2,7 +2,7 @@
 {% load static %}
 <head>
 {% block css %}
-<link rel="stylesheet" href="{% static '' %}">
+<link rel="stylesheet" href="{% static 'css/album_styles.css' %}">
 {% endblock %}
 
 {% block title %}Album Detail{% endblock %}
@@ -13,13 +13,45 @@
 
     <body>
         <div class="page-body">
+
+            <div id="buttons">
+                <a href="/albums" id="album-button" class="ui secondary button">All Albums</a>
+                <a href="/albums/{{album.slug}}/add_photo" id="add-photo-button" class="ui secondary button">Add Picture</a>
+            </div>
+
             <div>
                 <p>Photos from thsi album will appear here</p>
             </div>
+
+            <div class="ui doubling stackable five column grid">
+                {% for picture in album.photos.all %}
+                <div class="column">                    
+                    <div class="picture_item_container" onclick="goToPicture('{{picture.id}}')">
+
+                        <div class="thumbnail">
+                            {% if picture.thumb %}
+                            <img src="{{picture.thumb.url}}">
+                            {% else %}
+                                <img src="https://images.propstore.com/198739.jpg">
+                            {% endif %}
+                        </div>
+
+                        <div class="picture_caption">
+                            <p>{{picture.caption}}</p>
+                            <p>Created by: {{picture.created_by}}</p>
+                            <p>Date: {{picture.time}}</p>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+
         </div>
         
     </body>
     
 
 {% endblock %}
-{% block script %}<script src="{% static '' %}"></script>{% endblock %}
+{% block script %}<script src="{% static 'scripts/js/albums.js' %}"></script>{% endblock %}

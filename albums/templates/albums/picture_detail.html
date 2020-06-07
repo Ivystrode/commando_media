@@ -2,7 +2,7 @@
 {% load static %}
 <head>
 {% block css %}
-<link rel="stylesheet" href="{% static '' %}">
+<link rel="stylesheet" href="{% static 'css/album_styles.css' %}">
 {% endblock %}
 
 {% block title %}Picture Detail{% endblock %}
@@ -13,8 +13,14 @@
 
     <body>
         <div class="page-body">
+
+            <div id="buttons">
+                <a href="/albums/{{album.slug}}" id="album-button" class="ui secondary button">Back</a>
+            </div>
+
             <div>
-                <p>Selected picture will appear here</p>
+                <img src="{{picture.photo.url}}">
+                <p>{{picture.caption}}</p>
             </div>
         </div>
         

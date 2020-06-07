@@ -1,0 +1,38 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<head>
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/album_styles.css' %}">
+{% endblock %}
+
+{% block title %}Add Picture{% endblock %}
+{% block page_title %}Upload Pictures{% endblock %}
+{% block subtitle %}Upload new pictures to {{album.title}}{% endblock %}
+</head>
+{% block content %}     
+
+    <body>
+        <div class="page-body">
+
+            <div id="buttons">
+                <a href="/albums/{{album.slug}}" id="album-button" class="ui secondary button">Back</a>
+                <a href="/albums" id="album-button" class="ui secondary button">Albums</a>
+            </div>
+
+            
+            <div id="new-picture-form">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form | crispy}}
+                    <button type="submit" class="ui secondary button">Post</button>                        
+                </form>
+            </div>
+
+        </div>
+        
+    </body>
+    
+
+{% endblock %}
+{% block script %}<script src="{% static 'scripts/js/albums.js' %}"></script>{% endblock %}

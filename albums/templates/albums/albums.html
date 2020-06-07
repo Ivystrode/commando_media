@@ -13,10 +13,15 @@
 
     <body>
         <div class="page-body">
+
+            <div id="buttons">
+                <a href="/albums/create_album" id="create-album-button" class="ui secondary button">Create Album</a>
+            </div>
+
             <div class="ui doubling stackable five column grid">
                 {% for album in albums %}
                 <div class="column">                    
-                    <div class="album_item_container" onclick="goToAlbum('{{album.id}}')">
+                    <div class="album_item_container" onclick="goToAlbum('{{album.slug}}')">
 
                         <div class="album_image">
                             {% if album.coverpic %}
@@ -42,4 +47,4 @@
     
 
 {% endblock %}
-{% block script %}<script src="{% static '' %}"></script>{% endblock %}
+{% block script %}<script src="{% static 'scripts/js/albums.js' %}"></script>{% endblock %}

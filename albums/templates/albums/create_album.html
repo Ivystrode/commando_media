@@ -14,7 +14,7 @@
 
     <body>
         <div class="page-body">
-            <div id="comment-form">
+            <div id="new-album-form">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{form | crispy}}
