@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect
+
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 from .forms import AlbumCreationForm, PhotoUploadForm, CommentForm
 from .models import Album, AlbumPhoto, Comment
+
 from django.contrib import messages
 from django.utils.text import slugify
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic import ListView
 
 # Create your views here.
 @login_required()
@@ -12,6 +17,16 @@ def albums(request):
     albums = Album.objects.all()
     context = {'albums':albums}
     return render(request, "albums/albums.html", context)
+
+# ======CLASS BASED VERSION OF ALBUMS HTML (ABOVE)=====
+# Doesn't make much, if any difference. Will stick with function view type for this page.
+
+# @method_decorator(login_required, name='dispatch')
+# class AlbumListView(ListView):
+#     model = Album
+#     template_name = 'albums/albums.html'
+#     context_object_name = 'albums'
+#     ordering = ['title']
 
 
 @login_required()
@@ -70,7 +85,7 @@ def picture_detail(request, id, slug):
             #save comment to db
             new_comment.save()
             print("comment saved!")
-            return HttpResponseRedirect('') # clear form on submission
+            # return HttpResponseRedirect('') # clear form on submission
             return redirect('/albums')
     else:
         form = CommentForm()

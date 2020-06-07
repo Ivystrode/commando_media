@@ -1,8 +1,10 @@
 from django.urls import path, include
 from . import views
+# from .views import AlbumListView
 
 urlpatterns = [
-    path('', views.albums, name="albums"),
+    path('', views.albums, name="albums"), # comment out when using below method
+    # path('', AlbumListView.as_view(), name="albums"), # class based one
     path('create_album/', views.create_album, name='create_album'),
     path('<slug>/', views.album_detail, name='album_detail'),
     path('<slug>/add_photo', views.add_photo, name='add_photo'),

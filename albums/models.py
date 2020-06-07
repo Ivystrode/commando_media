@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib import admin
 from PIL import Image
-
+import uuid
 # Create your models here.
 
 # callback function to create media folder for album's coverpic
@@ -50,6 +50,8 @@ def thumb_folder(instance, filename):
 
 class AlbumPhoto(models.Model):   
     # id should be randomly generated - default is incremental, make sure to do it randomly
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    # above is the attempt...
     album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='photos')
     photo = models.ImageField(upload_to=album_folder)
     thumb = models.ImageField(upload_to=thumb_folder)
