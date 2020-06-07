@@ -88,6 +88,7 @@ class AlbumPhotoAdmin(admin.ModelAdmin):
 
 
 class Comment(models.Model):
+    # need to give comments a UUID as well? maybe also for users??
     parent = models.ForeignKey(AlbumPhoto, on_delete=models.CASCADE,related_name='comments')
     author = models.CharField(max_length=80)
     body = models.TextField()
