@@ -1,5 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 <head>
 {% block css %}
 <link rel="stylesheet" href="{% static '' %}">
@@ -13,8 +14,12 @@
 
     <body>
         <div class="page-body">
-            <div class="title-form">
-                <p></p>
+            <div id="comment-form">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{form | crispy}}
+                    <button type="submit" class="ui secondary button">Post</button>                        
+                </form>
             </div>
         </div>
         

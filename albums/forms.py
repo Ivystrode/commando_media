@@ -7,7 +7,7 @@ class AlbumCreationForm(forms.ModelForm):
 
     class Meta:
         model = Album # the model this form interacts with
-        fields = ['title', 'image'] # makes the title and initial (cover) pic
+        fields = ['title', 'coverpic'] # makes the title and initial (cover) pic
 
 class PhotoUploadForm(forms.ModelForm):
 
@@ -17,7 +17,7 @@ class PhotoUploadForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
-    
+
     class Meta:
         model = Comment
         fields = ['body']

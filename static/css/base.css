@@ -11,6 +11,10 @@
     border-right: 1px solid darkslategray;
 }
 
+a {
+    color: white;
+    text-decoration: none;
+}
 a:visited {
     text-decoration: none;
     color: midnightblue;

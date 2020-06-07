@@ -34,6 +34,6 @@ urlpatterns = [
 if settings.DEBUG: # if in DEBUG mode, this is where to find static media files
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-urlpatterns += [
-    url(r'^photologue/', include('photologue.urls', namespace='photologue')),
-]
+# urlpatterns += [
+#     url(r'^photologue/', include('photologue.urls', namespace='photologue')),
+# ]

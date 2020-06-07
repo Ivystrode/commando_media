@@ -1,13 +1,18 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib import admin
 from PIL import Image
 
 # Create your models here.
+
+# callback function to create media folder for album's coverpic
+def coverpic_path(instance, filename):
+    return '/'.join(['albums', instance.title, filename])
 class Album(models.Model):
     # id should be randomly generated - default is incremental, make sure to do it randomly
     title = models.CharField(max_length=50)
-    coverpic = models.ImageField()
+    coverpic = models.ImageField(upload_to=coverpic_path)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='albums')
     # slug = models.SlugField() use ID to recall album instead?
     time = models.DateTimeField(default=timezone.now())
@@ -15,9 +20,9 @@ class Album(models.Model):
     class Meta:
         ordering = ['-time']
 
-    def photos(self):
-        photo_list = [pic.photo.name for pic in self.photos.all()]
-        return photo_list
+    # def photos(self):
+    #     photo_list = [pic.photo.name for pic in self.photos.all()]
+    #     return photo_list trying to list all photos in album
 
     def __str__(self):
         return self.id + ": " + self.title
@@ -26,15 +31,20 @@ class AlbumAdmin(admin.ModelAdmin):
     search_fields = ['title', 'created_by']
     list_display = ['title', 'created_by']
 
+# callback function to create media folder for album's photos
+def album_folder(instance, filename):
+    return '/'.join(['img/gallery', instance.gallery_id, filename])
 
-class AlbumPhoto(models.Model):
+class AlbumPhoto(models.Model):   
     # id should be randomly generated - default is incremental, make sure to do it randomly
     album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='photos')
-    photo = models.ImageField(upload_to=f'albums/{album.id}')
-    thumb = models.ImageField(upload_to=f'albums/{album.id}/thumbs')
+    photo = models.ImageField(upload_to=f'albums/{album_folder}')
+    thumb = models.ImageField(upload_to=f'albums/{album_folder}/thumbs')
     caption = models.CharField(max_length=100)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_photos')
     time = models.DateTimeField(default=timezone.now())
+
+
 
     def thumbnail(self): # must be called no each image at upload time/form post
 

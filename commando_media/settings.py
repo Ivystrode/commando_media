@@ -37,13 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'crispy_forms',
     'main',
     'albums',
     'users',
-    'photo.apps.PhotoConfig',
+    # 'photo.apps.PhotoConfig',
     'photologue',
-    'sortedm2m,'
+    # 'sortedm2m,'
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,5 @@ MEDIA_URL = '/media/'
 
 LOGIN_REDIRECT_URL = "home"
 LOGIN_URL = "login"
+
+SITE_ID=1

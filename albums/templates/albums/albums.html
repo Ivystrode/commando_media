@@ -2,7 +2,7 @@
 {% load static %}
 <head>
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/album_styles.css' %}">
 {% endblock %}
 
 {% block title %}Albums{% endblock %}
@@ -13,8 +13,28 @@
 
     <body>
         <div class="page-body">
-            <div>
-                <p>Photo albums will appear here somehow.</p>
+            <div class="ui doubling stackable five column grid">
+                {% for album in albums %}
+                <div class="column">                    
+                    <div class="album_item_container" onclick="goToAlbum('{{album.id}}')">
+
+                        <div class="album_image">
+                            {% if album.coverpic %}
+                            <img src="{{album.coverpic.url}}">
+                            {% else %}
+                                <img src="https://images.propstore.com/198739.jpg">
+                            {% endif %}
+                        </div>
+
+                        <div class="album_title">
+                            <p>{{album.title}}</p>
+                            <p>Created by: {{album.created_by}}</p>
+                            <p>Date: {{album.time}}</p>
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
         
@@ -22,4 +42,4 @@
     
 
 {% endblock %}
-{% block script %}<script src="{% static 'scripts/home.js' %}"></script>{% endblock %}
+{% block script %}<script src="{% static '' %}"></script>{% endblock %}
