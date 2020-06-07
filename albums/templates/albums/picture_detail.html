@@ -1,5 +1,6 @@
 {% extends 'main/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 <head>
 {% block css %}
 <link rel="stylesheet" href="{% static 'css/album_styles.css' %}">
@@ -23,9 +24,34 @@
                 <p>{{picture.caption}}</p>
             </div>
         </div>
+
+        <div id="comments-section" class="ui one column grid">
+            <div class="column">
+                {% for comment in picture.comments.all %}
+                <div class="parent-comment">
+                    <div class="comment-author">
+                        <p><strong>{{comment.author}} | {{comment.time}}:</strong></p>
+                    </div>
+                    <div class="comment-body">
+                        <p>{{comment.body | linebreaks}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+                <div id="comment-post-button">
+                    <button class="ui secondary button" onclick="showCommentForm()">POST COMMENT</button>
+                </div>
+                <div id="comment-form">
+                    <form method="post">
+                        {{form | crispy}}
+                        {% csrf_token %}
+                        <button class="ui secondary button" onclick="closeCommentBox()">Close</button>
+                        <button type="submit" class="ui secondary button">Post</button>                        
+                    </form>
+                </div>
+            </div>
         
     </body>
     
 
 {% endblock %}
-{% block script %}<script src="{% static '' %}"></script>{% endblock %}
+{% block script %}<script src="{% static 'scripts/js/albums.js' %}"></script>{% endblock %}

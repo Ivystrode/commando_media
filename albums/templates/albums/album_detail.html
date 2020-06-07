@@ -19,10 +19,6 @@
                 <a href="/albums/{{album.slug}}/add_photo" id="add-photo-button" class="ui secondary button">Add Picture</a>
             </div>
 
-            <div>
-                <p>Photos from thsi album will appear here</p>
-            </div>
-
             <div class="ui doubling stackable five column grid">
                 {% for picture in album.photos.all %}
                 <div class="column">                    
@@ -37,9 +33,9 @@
                         </div>
 
                         <div class="picture_caption">
-                            <p>{{picture.caption}}</p>
+                            <p>{{picture.caption}} | {{picture.time}}</p>
                             <p>Created by: {{picture.created_by}}</p>
-                            <p>Date: {{picture.time}}</p>
+                            <p>Comments: {{picture.comments.all|length}}</p>
                         </div>
 
                     </div>

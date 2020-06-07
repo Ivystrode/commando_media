@@ -67,6 +67,40 @@
     text-overflow: ellipsis;
 }
 
+/* =====COMMENTS===== */
+
+#comment-form {
+    display: none;
+}
+
+#comment-post-button {
+    display: block;
+}
+
+.parent-comment {
+    margin: 10px;
+    background: rgba(59, 64, 61, 0.85);
+    padding: 5px;
+    border-radius: 4%;
+}
+.comment-author {
+    margin-top: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 1px;
+    border-bottom: 1px dashed white;
+    padding-bottom: 2px;
+}
+.comment-body {
+    margin: 5px;
+    margin-top: -10px;
+    /* margin-top: -10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px; */
+    /* padding: 1px; */
+}
+
 /* =====OTHERS===== */
 
 #buttons {

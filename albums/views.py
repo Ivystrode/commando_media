@@ -4,6 +4,7 @@ from .forms import AlbumCreationForm, PhotoUploadForm, CommentForm
 from .models import Album, AlbumPhoto, Comment
 from django.contrib import messages
 from django.utils.text import slugify
+from django.http import HttpResponse, HttpResponseRedirect
 
 # Create your views here.
 @login_required()
@@ -44,13 +45,34 @@ def create_album(request):
 @login_required()
 def album_detail(request, slug):
     album = Album.objects.get(slug=slug)
+    # comment_count = picture.comments.count()
     return render(request, "albums/album_detail.html", {'album': album})
 
 @login_required()
 def picture_detail(request, id, slug):
     picture = AlbumPhoto.objects.get(id=id)
     album = Album.objects.get(slug=slug)
-    return render(request, "albums/picture_detail.html", {'picture':picture, 'album':album})
+
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            print("posting new comment")
+            #create comment object but dont save to db yet
+            new_comment = form.save(commit=False)
+            print("comment picked up")
+            #assign current article to the comment
+            new_comment.parent = picture
+            print("comment assigned to picture")
+            new_comment.author = request.user
+            #save comment to db
+            new_comment.save()
+            print("comment saved!")
+            return HttpResponseRedirect('') # clear form on submission
+            return redirect('/albums')
+    else:
+        form = CommentForm()
+
+    return render(request, "albums/picture_detail.html", {'picture':picture, 'album':album, 'form':form})
 
 @login_required()
 def add_photo(request, slug):
