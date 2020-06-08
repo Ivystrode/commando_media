@@ -33,7 +33,7 @@
 
                         <div class="album_title">
                             <p>{{album.title}}</p>
-                            Created by: {{album.created_by}}
+                            Created by: <a class="profile-link" href="/profile/{{album.created_by}}">{{album.created_by}}</a>
                             <br>
                             Pictures: {{album.photos.all | length}}
                         </div>

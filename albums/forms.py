@@ -10,10 +10,11 @@ class AlbumCreationForm(forms.ModelForm):
         fields = ['title', 'coverpic'] # makes the title and initial (cover) pic
 
 class PhotoUploadForm(forms.ModelForm):
+    # photo = forms.ImageField(label='photo')
 
     class Meta:
         model = AlbumPhoto
-        fields = ['photo', 'caption']
+        fields = ['photo', 'caption', ]
 
 
 class CommentForm(forms.ModelForm):

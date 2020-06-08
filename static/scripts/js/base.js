@@ -71,3 +71,8 @@ hidebutton.addEventListener("click", function(){
 function toLogin(){
     window.location.assign("/login")
 }
+
+function toProfile(username){
+    console.log("user link")
+    window.location.assign("/profile/" + username)
+}

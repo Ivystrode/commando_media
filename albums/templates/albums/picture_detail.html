@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block title %}{{album.title}}{% endblock %}
-{% block page_title %}Picture by {{picture.created_by}}{% endblock %}
+{% block page_title %}Picture by <a class="profile-link" href="/profile/{{picture.created_by}}">{{picture.created_by}}</a>{% endblock %}
 {% block subtitle %}{{picture.caption}}{% endblock %}
 </head>
 {% block content %}     
@@ -40,7 +40,7 @@
                 {% for comment in picture.comments.all %}
                 <div class="parent-comment">
                     <div class="comment-author">
-                        <p><strong>{{comment.author}} | {{comment.time}}:</strong></p>
+                        <p><strong><a class="profile-link" href="/profile/{{comment.author}}">{{comment.author}}</a> | {{comment.time}}:</strong></p>
                     </div>
                     <div class="comment-body">
                         <p>{{comment.body | linebreaks}}</p>

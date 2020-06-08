@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from .forms import AlbumCreationForm, PhotoUploadForm, CommentForm
+from django.forms import modelformset_factory
 from .models import Album, AlbumPhoto, Comment
 
 from django.contrib import messages
@@ -86,7 +87,7 @@ def picture_detail(request, id, slug):
             new_comment.save()
             print("comment saved!")
             # return HttpResponseRedirect('') # clear form on submission
-            return redirect('/albums')
+            return redirect(f'/albums/{album.slug}/{picture.id}')
     else:
         form = CommentForm()
 
@@ -96,25 +97,39 @@ def picture_detail(request, id, slug):
 def add_photo(request, slug):
     album = Album.objects.get(slug=slug)
 
+    PhotoFormSet = modelformset_factory(AlbumPhoto, form=PhotoUploadForm, extra=5)
+
     if request.method == "POST":
-        form = PhotoUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            new_photo = form.save(commit=False)
-            new_photo.album = Album.objects.get(slug=slug)
-            new_photo.thumb = new_photo.photo
-            new_photo.created_by = request.user
+        formset = PhotoFormSet(request.POST, request.FILES, queryset=AlbumPhoto.objects.none())
 
-            print("Picture upload data stored in variable")
+        if formset.is_valid():
 
-            print(form.cleaned_data)
+            for form in formset.cleaned_data:
+                if form:
+                    # photo = form['photo']
 
-            print("form data on line above this")
+                    new_photo = AlbumPhoto(album = Album.objects.get(slug=slug), photo = form['photo'], thumb = form['photo'], created_by = request.user, caption=form['caption'])
+                    # print("Saved: " + new_photo.caption)
+                    # new_photo.save()
 
-            new_photo.save()
-            print(f"saved {new_photo.caption} to {new_photo.album.title}")
+                    # new_photo = form.save(commit=False)
+                    # new_photo.album = Album.objects.get(slug=slug)
+                    # new_photo.thumb = new_photo.photo
+                    # new_photo.created_by = request.user
+
+                    # print("Picture upload data stored in variable")
+
+                    # print(form.cleaned_data)
+
+                    # print("form data on line above this")
+
+                    new_photo.save()
+                    print(f"saved {new_photo.caption} to {new_photo.album.title}")
             return redirect(f'/albums/{album.slug}')
+        else:
+            print(formset.errors)
 
     else:
-        form = PhotoUploadForm()
+        formset = PhotoFormSet(queryset=AlbumPhoto.objects.none())
 
-    return render(request, "albums/add_photo.html", {'album':album, 'form':form})
+    return render(request, "albums/add_photo.html", {'album':album, 'formset':formset})

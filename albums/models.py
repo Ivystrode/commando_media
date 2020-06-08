@@ -15,7 +15,7 @@ class Album(models.Model):
     coverpic = models.ImageField(upload_to=coverpic_path)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='albums')
     slug = models.SlugField()
-    time = models.DateTimeField(default=timezone.now())
+    time = models.DateTimeField(default=timezone.localtime(timezone.now()))
 
     class Meta:
         ordering = ['-time']
@@ -36,13 +36,13 @@ def album_folder(instance, filename):
     print("ALBUM DIRECTORY FUNCTION")
     parent_album = Album.objects.get(title=instance.album.title)
     print(str(parent_album))
-    album_name = parent_album.title
+    album_name = parent_album.slug
     print(album_name)
     return '/'.join(['albums/', album_name, filename])
 
 def thumb_folder(instance, filename):
     print("THUMB DIRECTORY FINDER")
-    parent_album = Albums.objects.get(id=self.album.id)
+    parent_album = Album.objects.get(id=instance.album.id)
     print(str(parent_album))
     album_name = parent_album.slug
     print(album_name)
@@ -57,7 +57,7 @@ class AlbumPhoto(models.Model):
     thumb = models.ImageField(upload_to=thumb_folder)
     caption = models.CharField(max_length=100)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_photos')
-    time = models.DateTimeField(default=timezone.now())
+    time = models.DateTimeField(default=timezone.localtime(timezone.now()))
 
 
 
@@ -92,7 +92,7 @@ class Comment(models.Model):
     parent = models.ForeignKey(AlbumPhoto, on_delete=models.CASCADE,related_name='comments')
     author = models.CharField(max_length=80)
     body = models.TextField()
-    time = models.DateTimeField(default=timezone.now())
+    time = models.DateTimeField(default=timezone.localtime(timezone.now()))
 
     class Meta:
         ordering = ['-time']

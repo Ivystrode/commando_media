@@ -282,3 +282,13 @@ body {
         padding: 2%;
     }
 }
+
+.profile-link {
+    color: inherit;
+}
+.profile-link:visited {
+    color: inherit;
+}
+.profile-link:hover {
+    color: cadetblue;
+}
