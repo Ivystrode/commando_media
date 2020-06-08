@@ -52,7 +52,7 @@ def profile(request, username):
                 u_form.save()
                 p_form.save()
                 messages.success(request, 'Information updated')
-                return redirect('/profile')
+                return redirect(f'/profile/{username}')
         else:
             u_form = UserUpdateForm(instance=request.user)
             p_form = ProfileUpdateForm(instance=request.user.profile)
