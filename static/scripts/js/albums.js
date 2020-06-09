@@ -15,7 +15,7 @@ function closeCommentBox(){
 function goToAlbum(slug) {
     window.location.href = slug
 }
-function goToPicture(id) {
-    window.location.href = id
+function goToPicture(url) {
+    window.location.href = url
 }
 

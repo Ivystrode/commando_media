@@ -26,7 +26,7 @@
 
                         <div class="thumbnail">
                             {% if picture.thumb %}
-                            <img src="{{picture.thumb.url}}">
+                            <img class="ui rounded image" src="{{picture.thumb.url}}">
                             {% else %}
                                 <img src="https://images.propstore.com/198739.jpg">
                             {% endif %}
@@ -34,7 +34,7 @@
 
                         <div class="picture_caption">
                             <p>{{picture.caption}} | {{picture.time|date:'m-d-Y - Hi'}}</p>
-                            Created by: <a class="profile-link" href="/profile/{{picture.created_by}}">{{picture.created_by}}</a>
+                            Uploader: <a class="profile-link" href="/profile/{{picture.created_by}}">{{picture.created_by}}</a>
                             <br>
                             Comments: {{picture.comments.all|length}}
                         </div>

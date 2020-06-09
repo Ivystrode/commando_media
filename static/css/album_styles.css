@@ -75,6 +75,12 @@
 }
 
 /* =====COMMENTS===== */
+/* @media(max-width: 800px){
+    #comments-section{
+        margin-right: -100%;
+    }
+} */
+
 
 #comment-form {
     display: none;
@@ -92,6 +98,11 @@
     background: rgba(59, 64, 61, 0.85);
     padding: 5px;
     border-radius: 4%;
+}
+@media(max-width: 1000px){
+    .parent-comment {
+        margin: 10px;
+    }
 }
 .comment-author {
     margin-top: 5px;
