@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.contrib import messages
 from .models import Notice
-from .forms import NoticeCreationForm, NoticeCommentForm
+from .forms import NoticeCreationForm, NoticeCommentForm, DeleteNoticeForm
 
 # Create your views here.
 @login_required()
@@ -92,12 +92,15 @@ def add_notice(request):
 @login_required()
 def delete_notice(request, id):
     notice_to_delete = Notice.objects.get(id=id)
-    if request.user == notice_to_delete.created_by or request.user.profile.role == 'BC' or request.user.profile.role == 'BSM':
-        print("deleted" + str(notice_to_delete.title))
-        notice_to_delete.delete()
-        print("deleted")
-        messages.success(request, f'Notice deleted')
-        return redirect('/notices')
-    else:
-        messages.success(request, f'You may only delete notices if you are the creator or HQ staff')
-        return redirect('/notices')
+    context = {'notice':notice_to_delete}
+    if request.method == "POST":
+        if request.user == notice_to_delete.created_by or request.user.profile.role == 'BC' or request.user.profile.role == 'BSM':
+            print("deleted" + str(notice_to_delete.title))
+            notice_to_delete.delete()
+            print("deleted")
+            messages.success(request, f'Notice deleted')
+            return redirect('/notices')
+        else:
+            messages.success(request, f'You may only delete notices if you are the creator or HQ staff')
+            return redirect(f'/notices/{notice_to_delete.id}/delete_notice')
+    return render(request, "main/delete_notice.html", context)

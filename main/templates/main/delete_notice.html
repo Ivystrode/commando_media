@@ -1,0 +1,35 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<head>
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/notices.css' %}">
+{% endblock %}
+
+{% block title %}Delete{% endblock %}
+{% block page_title %}Delete Notice{% endblock %}
+{% block subtitle %}Are you sure you want to delete this notice?{% endblock %}
+</head>
+{% block content %}     
+
+        <div class="page-body">
+
+            <div id="buttons">
+                <a href="/notices/{{notice.id}}" id="notice-button" class="ui secondary button">View Notice</a>
+                <a href="/notices" id="notice-button" class="ui secondary button">All Notices</a>
+            </div>
+        
+            <div class="delete-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    <p>Confirm Deletion of {{notice.title}}</p>
+                    <button type="submit" class="ui negative button">Delete</button>
+                    <a href="/notices" class="ui blue button">Cancel</a>
+                </form>
+                
+            </div>
+
+        </div>
+    
+
+{% endblock %}
+{% block script %}<script src="{% static 'scripts/js/notices.js' %}"></script>{% endblock %}

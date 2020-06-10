@@ -15,3 +15,7 @@ class NoticeCommentForm(forms.ModelForm):
     class Meta:
         model = NoticeComment
         fields = ['body']
+
+class DeleteNoticeForm(forms.ModelForm):
+
+    model = Notice

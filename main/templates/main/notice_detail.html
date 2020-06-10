@@ -8,7 +8,7 @@
 
 {% block title %}{{notice.title}}{% endblock %}
 {% block page_title %}{{notice.title}}{% endblock %}
-{% block subtitle %}Posted by {{notice.created_by}} at: {{notice.time}}{% endblock %}
+{% block subtitle %}Posted by <a class="profile-link" href="/profile/{{notice.created_by}}">{{notice.created_by}}</a> at: {{notice.time}}{% endblock %}
 </head>
 {% block content %}     
 

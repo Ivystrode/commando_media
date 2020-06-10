@@ -31,7 +31,7 @@
 
                         {% if notice.created_by == request.user or request.user.profile.role == 'BC' or request.user.profile.role == 'BSM' %}
                         <div class="control-buttons">
-                            <a href="{% url 'delete' notice.id %}" class="ui negative button" onclick="return confirm('Are you sure you want to delete this notice?')">Delete</a>
+                            <a href="{% url 'delete' notice.id %}" class="ui negative button">Delete</a>
                             <a href="" class="ui blue button">Edit</a>
                         </div>
                         {% endif %}
