@@ -1,6 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.utils.text import slugify
+from django.contrib import messages
+from .models import Notice
+from .forms import NoticeCreationForm, NoticeCommentForm
 
 # Create your views here.
 @login_required()
@@ -13,11 +17,87 @@ def home(request):
 
     return render(request, "main/home.html", context)
 
+@login_required()
 def notices(request):
+    notices = Notice.objects.all()
 
 
-    context = {'user': request.user}
-    print(request.user)
+    context = {'user': request.user, 'notices': notices}
 
 
     return render(request, "main/notices.html", context)
+
+@login_required()
+def notice_detail(request, id):
+    notice = Notice.objects.get(id=id)
+
+    if request.method == "POST":
+        form = NoticeCommentForm(request.POST)
+        if form.is_valid():
+            print("posting new comment")
+            #create comment object but dont save to db yet
+            new_comment = form.save(commit=False)
+            print("comment picked up")
+            #assign current article to the comment
+            new_comment.parent = notice
+            print("comment assigned to picture")
+            new_comment.author = request.user
+            #save comment to db
+            new_comment.save()
+            print("comment saved!")
+            # return HttpResponseRedirect('') # clear form on submission
+            return redirect(f'/notices/{notice.id}')
+    else:
+        form = NoticeCommentForm()
+
+
+    context = {'user': request.user, 'notice': notice, 'form':form}
+
+
+    return render(request, "main/notice_detail.html", context)
+
+@login_required()
+def add_notice(request):
+    if request.user.profile.role == 'BC' or request.user.profile.role == 'BSM':    
+        if request.method == "POST":
+            form = NoticeCreationForm(request.POST, request.FILES)
+            if form.is_valid():
+                new_notice = form.save(commit=False)
+                print("save no commit")
+
+                new_notice.created_by = request.user
+                new_notice.slug = slugify(form.cleaned_data.get('title'))
+
+                print(new_notice.created_by)
+                print(form.cleaned_data)
+                print(new_notice)
+
+                new_notice.save()
+
+                print("saved")
+
+                noticename = form.cleaned_data.get('title')
+                print(form.cleaned_data)
+                messages.success(request, f'Notice created: {noticename}')
+                return redirect('/notices')
+        else:
+            form = NoticeCreationForm()
+
+        return render(request, "main/add_notice.html", {'form':form})
+    else:
+        messages.success(request, f'You must be in a HQ role to post notices')
+        return redirect('/notices')
+
+
+@login_required()
+def delete_notice(request, id):
+    notice_to_delete = Notice.objects.get(id=id)
+    if request.user == notice_to_delete.created_by or request.user.profile.role == 'BC' or request.user.profile.role == 'BSM':
+        print("deleted" + str(notice_to_delete.title))
+        notice_to_delete.delete()
+        print("deleted")
+        messages.success(request, f'Notice deleted')
+        return redirect('/notices')
+    else:
+        messages.success(request, f'You may only delete notices if you are the creator or HQ staff')
+        return redirect('/notices')

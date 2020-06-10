@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<head>
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/notices.css' %}">
+{% endblock %}
+
+{% block title %}New Notice{% endblock %}
+{% block page_title %}Post a New Notice{% endblock %}
+{% block subtitle %}Post a new announcement, notice, or information{% endblock %}
+</head>
+{% block content %}     
+
+    <body>
+        <div class="page-body">
+
+            <div id="buttons">
+                <a href="/notices" id="notice-button" class="ui secondary button">Back</a>
+            </div>
+
+            
+            <div id="new-notice-form">
+                <form id="post_form" method="post" action="" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                
+                
+                    <input type="submit" name="submit" value="Submit" />
+                </form>
+            </div>
+
+        </div>
+        
+    </body>
+    
+
+{% endblock %}
+{% block script %}<script src="{% static 'scripts/js/notices.js' %}"></script>{% endblock %}

@@ -2,7 +2,7 @@
 {% load static %}
 <head>
 {% block css %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/notices.css' %}">
 {% endblock %}
 
 {% block title %}Notices{% endblock %}
@@ -12,13 +12,60 @@
 {% block content %}     
 
         <div class="page-body">
-            <div>
-                <p>All notices will appear here</p>
+
+            <div id="buttons">
+                <a href="/notices/add_notice" id="new-notice-button" class="ui secondary button">NEW NOTICE</a>
             </div>
-            
-        </div>
         
+            <div class="ui one column grid">
+                {% if notices|length > 0 %}
+                {% for notice in notices %}
+                <div class="column">                    
+                    <div class="notice-item-container">
+                        <div class="notice-title profile-link" onclick="goToNotice('{{notice.id}}')">
+                            <h2>{{notice.title}}</h2>
+                        </div>
+                        <div class="notice-author">
+                            <a class="profile-link" href="/profile/{{notice.created_by}}">{{notice.created_by}} | {{notice.time}}</a><br>Comments: {{notice.noticecomments.all|length}}
+                        </div>
+
+                        {% if notice.created_by == request.user or request.user.profile.role == 'BC' or request.user.profile.role == 'BSM' %}
+                        <div class="control-buttons">
+                            <a href="{% url 'delete' notice.id %}" class="ui negative button" onclick="return confirm('Are you sure you want to delete this notice?')">Delete</a>
+                            <a href="" class="ui blue button">Edit</a>
+                        </div>
+                        {% endif %}
+
+
+
+                        <div class="notice-image ui medium rounded image" onclick="goToNotice('{{notice.id}}')">
+                            {% if notice.image %}
+                            <img src="{{notice.image.url}}">
+                            {% else %}
+                            <img src="https://joburg.org.za/Campaigns/PublishingImages/NOTICE.png">
+                            {% endif %}
+                        </div>
+                        <div class="notice-body profile-link" onclick="goToNotice('{{notice.id}}')">
+                            {{notice.body|linebreaks}}
+                        </div>
+
+
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="column">
+
+                    <div>
+                        <p>No notices to display</p>
+                    </div>
+
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
     
 
 {% endblock %}
-{% block script %}<script src="{% static '' %}"></script>{% endblock %}
+{% block script %}<script src="{% static 'scripts/js/notices.js' %}"></script>{% endblock %}
