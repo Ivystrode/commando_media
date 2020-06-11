@@ -129,8 +129,9 @@ def edit_notice(request, id):
             existing_data = {'title':notice.title, 'image': notice.image, 'body':notice.body}
             form = NoticeCreationForm(initial=existing_data)
     else:
+        print("not staff user")
         messages.success(request, f'You may only edit this post if you are the creator or HQ staff')
-        return redirect(f'/notices/{notice.id}')
+        return render(request, "main/notice_detail.html", {'notice':notice})
 
     return render(request, "main/add_notice.html", {'form':form, 'notice':notice})
 
