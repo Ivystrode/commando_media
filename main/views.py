@@ -134,5 +134,5 @@ def edit_notice(request, id):
         messages.success(request, f'You may only edit this post if you are the creator or HQ staff')
         return render(request, "main/notice_detail.html", {'notice':notice})
 
-    return render(request, "main/add_notice.html", {'form':form, 'notice':notice})
+    return render(request, "main/edit_notice.html", {'form':form, 'notice':notice})
 
