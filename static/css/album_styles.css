@@ -74,6 +74,13 @@
     text-overflow: ellipsis;
 }
 
+/* =====ADD PHOTO===== */
+.add-photo-upload-form-item {
+    margin: 10px;
+    border: 1px solid white;
+    padding: 10px;
+}
+
 /* =====COMMENTS===== */
 /* @media(max-width: 800px){
     #comments-section{

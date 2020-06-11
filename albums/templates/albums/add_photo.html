@@ -8,7 +8,7 @@
 
 {% block title %}Add Picture{% endblock %}
 {% block page_title %}Upload Pictures{% endblock %}
-{% block subtitle %}Upload new pictures to {{album.title}}{% endblock %}
+{% block subtitle %}Upload new pictures to {{album.title}} - maximum of 5 at once{% endblock %}
 </head>
 {% block content %}     
 
@@ -28,11 +28,11 @@
                 
                     {{ formset.management_form }}
                     {% for form in formset %}
-                        {{ form }}
+                    <div class="add-photo-upload-form-item">                        
+                        {{ form.as_p }}
+                    </div>
                     {% endfor %}
-                
-                
-                    <input type="submit" name="submit" value="Submit" />
+                    <input class="ui secondary button" type="submit" name="submit" value="Submit" />
                 </form>
             </div>
 
