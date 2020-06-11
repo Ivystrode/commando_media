@@ -105,6 +105,7 @@ def delete_notice(request, id):
             return redirect(f'/notices')
     return render(request, "main/delete_notice.html", context)
 
+@login_required()
 def edit_notice(request, id):
     print("EDIT ROUTE")
     notice = Notice.objects.get(id=id)
