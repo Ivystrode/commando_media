@@ -7,5 +7,6 @@ urlpatterns = [
     path('notices/add_notice', views.add_notice, name="add_notice"),
     path('notices/<id>', views.notice_detail, name="notice_detail"),
     path('notices/<id>/delete', views.delete_notice, name="delete"),
+    path('notices/<id>/edit_notice', views.edit_notice, name="edit"),
     path('profile/', include('users.urls'))
 ]

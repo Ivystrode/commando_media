@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.contrib import messages
 from .models import Notice
-from .forms import NoticeCreationForm, NoticeCommentForm, DeleteNoticeForm
+from .forms import NoticeCreationForm, NoticeCommentForm, DeleteNoticeForm, EditNoticeForm
 
 # Create your views here.
 @login_required()
@@ -102,5 +102,35 @@ def delete_notice(request, id):
             return redirect('/notices')
         else:
             messages.success(request, f'You may only delete notices if you are the creator or HQ staff')
-            return redirect(f'/notices/{notice_to_delete.id}/delete_notice')
+            return redirect(f'/notices')
     return render(request, "main/delete_notice.html", context)
+
+def edit_notice(request, id):
+    print("EDIT ROUTE")
+    notice = Notice.objects.get(id=id)
+    if request.user == notice.created_by or request.user.profile.role == 'BC' or request.user.profile.role == 'BSM':
+        if request.method == "POST":
+            form = EditNoticeForm(request.POST, request.FILES, instance=notice)
+            if form.is_valid():
+                edited_notice = form.save(commit=False)
+                print("form cleaned data")
+                print(form.cleaned_data)
+                print("edited notice")
+                edited_notice.created_by = notice.created_by
+                edited_notice.time = notice.time
+                edited_notice.slug = notice.slug
+                edited_notice.id = notice.id
+                print(edited_notice)
+                edited_notice.save()
+                messages.success(request, f'Edits saved to: {edited_notice.title}')
+                return redirect('/notices')
+        
+        else:
+            existing_data = {'title':notice.title, 'image': notice.image, 'body':notice.body}
+            form = NoticeCreationForm(initial=existing_data)
+    else:
+        messages.success(request, f'You may only edit this post if you are the creator or HQ staff')
+        return redirect(f'/notices/{notice.id}')
+
+    return render(request, "main/add_notice.html", {'form':form, 'notice':notice})
+
