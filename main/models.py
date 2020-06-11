@@ -4,7 +4,8 @@ from django.utils import timezone
 from django.contrib import admin
 import uuid
 
-# Create your models here.
+#==========MODELS==========
+
 class Notice(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=300)
@@ -17,17 +18,10 @@ class Notice(models.Model):
     class Meta:
         ordering = ['-time']
 
-
     def __str__(self):
         return str(self.title) + ": " + str(self.created_by)
 
-class NoticeAdmin(admin.ModelAdmin):
-    search_fields = ['title', 'created_by']
-    list_display = ['title', 'created_by', 'time']
-
-
 class NoticeComment(models.Model):
-    # need to give comments a UUID as well? maybe also for users??
     parent = models.ForeignKey(Notice, on_delete=models.CASCADE,related_name='noticecomments')
     author = models.CharField(max_length=150)
     body = models.TextField()
@@ -36,9 +30,20 @@ class NoticeComment(models.Model):
     class Meta:
         ordering = ['-time']
 
-        def __str__(self):
-            return f'Comment by {self.author}: {self.body}'
+    def __str__(self):
+        return f'Comment by {self.author}: {self.body}'
+
+#==========MODEL ADMIN==========
 
 class NoticeCommentAdmin(admin.ModelAdmin):
     search_fields = ['author', 'parent']
     list_display = ['author', 'time', 'parent']
+
+# Show comments inline with Notices (see ref1)
+class NoticeCommentInline(admin.TabularInline):
+    model = NoticeComment
+    
+class NoticeAdmin(admin.ModelAdmin):
+    search_fields = ['title', 'created_by']
+    list_display = ['title', 'created_by', 'time']
+    inlines = [NoticeCommentInline] #ref1

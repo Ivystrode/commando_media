@@ -4,34 +4,12 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 from PIL import Image
 import uuid
-# Create your models here.
 
-# callback function to create media folder for album's coverpic
+#==========MODEL FUNCTIONS==========
+
 def coverpic_path(instance, filename):
     return '/'.join(['albums', instance.title, filename])
-class Album(models.Model):
-    # id should be randomly generated - default is incremental, make sure to do it randomly
-    title = models.CharField(max_length=50)
-    coverpic = models.ImageField(upload_to=coverpic_path)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='albums')
-    slug = models.SlugField()
-    time = models.DateTimeField(default=timezone.localtime(timezone.now()))
 
-    class Meta:
-        ordering = ['-time']
-
-    # def photos(self):
-    #     photo_list = [pic.photo.name for pic in self.photos.all()]
-    #     return photo_list trying to list all photos in album
-
-    def __str__(self):
-        return str(self.id) + ": " + str(self.title)
-
-class AlbumAdmin(admin.ModelAdmin):
-    search_fields = ['title', 'created_by']
-    list_display = ['title', 'created_by']
-
-# callback function to create media folder for album's photos
 def album_folder(instance, filename):
     print("ALBUM DIRECTORY FUNCTION")
     parent_album = Album.objects.get(title=instance.album.title)
@@ -48,10 +26,24 @@ def thumb_folder(instance, filename):
     print(album_name)
     return '/'.join(['albums/', album_name, '/thumbs/', filename])
 
-class AlbumPhoto(models.Model):   
-    # id should be randomly generated - default is incremental, make sure to do it randomly
+#==========MODELS==========
+
+class Album(models.Model):
+    title = models.CharField(max_length=50)
+    coverpic = models.ImageField(upload_to=coverpic_path)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='albums')
+    slug = models.SlugField()
+    time = models.DateTimeField(default=timezone.localtime(timezone.now()))
+
+    class Meta:
+        ordering = ['-time']
+
+    def __str__(self):
+        return str(self.id) + ": " + str(self.title)
+
+
+class AlbumPhoto(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    # above is the attempt...
     album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='photos')
     photo = models.ImageField(upload_to=album_folder)
     thumb = models.ImageField(upload_to=thumb_folder)
@@ -59,33 +51,11 @@ class AlbumPhoto(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_photos')
     time = models.DateTimeField(default=timezone.localtime(timezone.now()))
 
-
-
-    # def save(self): # must be called no each image at upload time/form post
-    #     super().save()
-
-    #     img = Image.open(self.thumb.path)
-
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300, 300)
-    #         img.thumbnail(output_size)
-    #         img.save(self.thumb.path)
-
     class Meta:
         ordering = ['-time']
 
     def __str__(self):
         return str(self.id) + ": " + str(self.caption)
-
-
-class AlbumPhotoAdmin(admin.ModelAdmin):
-    search_fields = ['album', 'caption', 'time', 'created_by']
-    list_display = ['album', 'time', 'created_by']
-
-
-
-
-
 
 class Comment(models.Model):
     # need to give comments a UUID as well? maybe also for users??
@@ -100,6 +70,27 @@ class Comment(models.Model):
         def __str__(self):
             return f'Comment by {self.author}: {self.body}'
 
+#==========MODEL ADMIN==========
+
 class CommentAdmin(admin.ModelAdmin):
     search_fields = ['author']
     list_display = ['author', 'time']
+
+class CommentAdminInline(admin.TabularInline):
+    model = Comment
+
+class AlbumPhotoAdmin(admin.ModelAdmin):
+    search_fields = ['album', 'caption', 'time', 'created_by']
+    list_display = ['album', 'time', 'created_by']
+    inlines = [CommentAdminInline]
+
+class AlbumPhotoInline(admin.TabularInline):
+    model = AlbumPhoto
+
+class AlbumAdmin(admin.ModelAdmin):
+    search_fields = ['title', 'created_by']
+    list_display = ['title', 'created_by']
+    inlines = [AlbumPhotoInline]
+
+
+

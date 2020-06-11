@@ -60,6 +60,7 @@ img/
 #added img to stop it uploading images to github!
 media/
 #added media to stop media site project from doing the same
+.vscode/
 
 # Flask stuff:
 instance/
