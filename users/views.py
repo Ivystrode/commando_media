@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, Http404
 from django.contrib import messages
-from .forms import UserRegisterForm, ProfileForm, UserUpdateForm, ProfileUpdateForm
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+from .forms import UserRegisterForm, ProfileForm, UserUpdateForm, ProfileUpdateForm
 
 # Create your views here.
 def register(request):
@@ -22,7 +22,7 @@ def register(request):
     else:
         form = UserRegisterForm()
         d_form = ProfileForm()
-    
+
 
 
     return render(request, "users/register.html", {'form':form})
@@ -33,10 +33,10 @@ def profile(request, username):
         user = User.objects.get(username=username)
     except:
         raise Http404
-    
+
     # editable = False
 
-    if request.user.is_authenticated == True and request.user.username == user.username:
+    if request.user.is_authenticated and request.user.username == user.username:
         editable = True
     else:
         editable = False
@@ -44,8 +44,8 @@ def profile(request, username):
     print(request.user.is_authenticated)
     print(request.user.username == user.username)
 
-    if editable == True:
-        if request.method=="POST":
+    if editable:
+        if request.method == "POST":
             u_form = UserUpdateForm(request.POST, instance=request.user)
             p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
             if u_form.is_valid() and p_form.is_valid():
