@@ -47,7 +47,8 @@ def create_album(request):
 
             new_album.save()
 
-            new_photo = AlbumPhoto.objects.create(album=new_album, photo=new_album.coverpic, thumb=new_album.coverpic, caption='Album Cover', created_by=request.user)
+            # new_photo = AlbumPhoto.objects.create(album=new_album, photo=new_album.coverpic, thumb=new_album.coverpic, caption='Album Cover', created_by=request.user)
+            new_photo = AlbumPhoto.objects.create(album=new_album, photo=new_album.coverpic, caption='Album Cover', created_by=request.user)
             new_photo.save()
 
             print("saved")
@@ -108,7 +109,8 @@ def add_photo(request, slug):
                 if form:
                     # photo = form['photo']
 
-                    new_photo = AlbumPhoto(album = Album.objects.get(slug=slug), photo = form['photo'], thumb = form['photo'], created_by = request.user, caption=form['caption'])
+                    # new_photo = AlbumPhoto(album = Album.objects.get(slug=slug), photo = form['photo'], thumb = form['photo'], created_by = request.user, caption=form['caption'])
+                    new_photo = AlbumPhoto(album = Album.objects.get(slug=slug), photo = form['photo'], created_by = request.user, caption=form['caption'])
                     # print("Saved: " + new_photo.caption)
                     # new_photo.save()
 

@@ -2,23 +2,43 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib import admin
+
 from PIL import Image
 import uuid
+from stdimage import StdImageField
+from dynamic_filenames import FilePattern
+from datetime import datetime
+import random, os
 
 #==========MODEL FUNCTIONS==========
 
 def coverpic_path(instance, filename):
-    return '/'.join(['albums', instance.title, filename])
+    return '/'.join(['albums', instance.slug, filename])
 
 def album_folder(instance, filename):
     print("ALBUM DIRECTORY FUNCTION")
+
+    base_filename, file_extension = os.path.splitext(filename)
+    dt = datetime.now().strftime("%Y%m%d%H%M")
+    nums = '1234567890'
+    randomid = ''.join((random.choice(nums)) for x in range(3))
+
+    print("datetime string: " + str(dt))
+    print("random id: " + str(randomid))
+
+    new_filename = f'{randomid}{dt}'
     parent_album = Album.objects.get(title=instance.album.title)
     print(str(parent_album))
     album_name = parent_album.slug
+    print("saving:")
+    print(new_filename)
+    print("to")
     print(album_name)
-    return '/'.join(['albums/', album_name, filename])
+    return '/'.join(['albums/', album_name, new_filename + file_extension])
 
+# dont think this is used any more
 def thumb_folder(instance, filename):
+
     print("THUMB DIRECTORY FINDER")
     parent_album = Album.objects.get(id=instance.album.id)
     print(str(parent_album))
@@ -26,11 +46,19 @@ def thumb_folder(instance, filename):
     print(album_name)
     return '/'.join(['albums/', album_name, '/thumbs/', filename])
 
+#==========FILENAMING==========
+# does this replace the above functions...?
+# photo_name_pattern = FilePattern(
+#     filename_pattern = '{albums}/{AlbumPhoto}'
+# )
+
+
 #==========MODELS==========
 
 class Album(models.Model):
     title = models.CharField(max_length=50)
-    coverpic = models.ImageField(upload_to=coverpic_path)
+    # coverpic = models.ImageField(upload_to=coverpic_path)
+    coverpic = StdImageField(upload_to=coverpic_path, variations = {'thumbnail': {'width': 300, 'height': 300, 'crop':False}})
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='albums')
     slug = models.SlugField()
     time = models.DateTimeField(default=timezone.localtime(timezone.now()))
@@ -45,8 +73,15 @@ class Album(models.Model):
 class AlbumPhoto(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     album = models.ForeignKey(Album, on_delete=models.CASCADE, related_name='photos')
-    photo = models.ImageField(upload_to=album_folder)
-    thumb = models.ImageField(upload_to=thumb_folder)
+    # photo = models.ImageField(upload_to=album_folder)
+
+    # thumb = models.ImageField(upload_to=thumb_folder)
+
+    photo = StdImageField(upload_to=album_folder, variations = {'thumbnail': {'width': 300, 'height': 300, 'crop':False}})
+    # stdimage allows standardized file renaming and thumbnail creation
+    # figure out how to use the thumbnail...
+    # can replace the thumb = models.imagefield above this block
+
     caption = models.CharField(max_length=100)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_photos')
     time = models.DateTimeField(default=timezone.localtime(timezone.now()))

@@ -25,8 +25,8 @@
                     <div class="picture_item_container" onclick="goToPicture('{{picture.id}}')">
 
                         <div class="thumbnail">
-                            {% if picture.thumb %}
-                            <img class="ui rounded image" src="{{picture.thumb.url}}">
+                            {% if picture.photo.thumbnail.url %}
+                            <img class="ui rounded image" src="{{picture.photo.thumbnail.url}}">
                             {% else %}
                                 <img src="https://images.propstore.com/198739.jpg">
                             {% endif %}
