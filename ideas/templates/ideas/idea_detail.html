@@ -1,0 +1,91 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<head>
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/ideas.css' %}">
+{% endblock %}
+
+{% block title %}{{idea.title}}{% endblock %}
+{% block page_title %}{{idea.title}}{% endblock %}
+{% block subtitle %}Posted by <a class="profile-link" href="/profile/{{idea.created_by}}">{{idea.created_by}}</a> at: {{idea.time}}{% endblock %}
+</head>
+{% block content %}     
+
+    <body>
+        <div class="page-body">
+
+            <div id="buttons">
+                <a href="/ideas" id="idea-button" class="ui secondary button">All ideas</a>
+            </div>
+
+            <div class="idea ui two column grid">
+                
+                <div id="main-idea-section" class="column">
+                    <div class="ideapara column" id="intro">
+                        <div class="imgcolumn">
+                            <div id="img1">
+                                <img id="ideaimage1" class="ui medium rounded image" src="{{idea.image.url}}">
+                            </div>
+                        </div>
+                        {% if idea.body != 'None' %}
+                        <p>{{idea.body | linebreaks}}</p>
+                        {% elif idea.body == None %}
+                        <p>No text body found for this article - please use Link above to visit the page on the news outlet's website</p>
+                        {% else %}
+                        <p>No text body found for this article - please use Link above to visit the page on the news outlet's website</p>
+                        {% endif %}
+                        
+                    </div>
+                </div>
+        
+                <div class="comments column">
+                    <div id="comments-section" class="ui one column grid">
+                        <div class="column">
+                            {% for comment in idea.ideacomments.all %}
+                            <div class="parent-comment">
+                                <div class="comment-author">
+                                    <p><strong><a class="profile-link" href="/profile/{{comment.author}}">{{comment.author}}</a> | {{comment.time}}:</strong></p>
+                                </div>
+                                <div class="comment-body">
+                                    <p>{{comment.body | linebreaks}}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div id="comment-post-button">
+                                <button class="ui secondary button" onclick="showCommentForm()">POST COMMENT</button>
+                            </div>
+                            <div id="comment-form">
+                                <form method="post">
+                                    {{form | crispy}}
+                                    {% csrf_token %}
+                                    <button class="ui secondary button" onclick="closeCommentBox()">Close</button>
+                                    <button type="submit" class="ui secondary button">Post</button>                        
+                                </form>
+                            </div>
+                        </div>
+        
+                    </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+                </div>
+        
+            </div>
+
+
+        </div>
+        
+    </body>
+    
+
+{% endblock %}
+{% block script %}<script src="{% static 'scripts/js/ideas.js' %}"></script>{% endblock %}

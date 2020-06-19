@@ -1,0 +1,71 @@
+{% extends 'main/base.html' %}
+{% load static %}
+<head>
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/ideas.css' %}">
+{% endblock %}
+
+{% block title %}Ideas{% endblock %}
+{% block page_title %}Ideas{% endblock %}
+{% block subtitle %}Ideas and suggestions for use of kit and equipment, tactics, administration - this area is free for all ranks to post any ideas you may have{% endblock %}
+</head>
+{% block content %}     
+
+        <div class="page-body">
+
+            <div id="buttons">
+                <a href="/ideas/add_idea" id="new-idea-button" class="ui secondary button">NEW IDEA</a>
+            </div>
+        
+            <div class="ui one column grid">
+                {% if ideas|length > 0 %}
+                {% for idea in ideas %}
+                <div class="column">                    
+                    <div class="idea-item-container">
+                        <div class="idea-title profile-link" onclick="goToIdea('{{idea.id}}')">
+                            <h2>{{idea.title}}</h2>
+                        </div>
+                        <div class="idea-author">
+                            <a class="profile-link" href="/profile/{{idea.created_by}}">{{idea.created_by}} | {{idea.time}}</a><br>Comments: {{idea.ideacomments.all|length}}
+                        </div>
+
+                        {% if idea.created_by == request.user or request.user.profile.role == 'BC' or request.user.profile.role == 'BSM' %}
+                        <div class="control-buttons">
+                            <a href="{% url 'delete_idea' idea.id %}" class="ui negative button">Delete</a>
+                            <a href="{% url 'edit_idea' idea.id %}" class="ui blue button">Edit</a>
+                        </div>
+                        {% endif %}
+
+
+
+                        <div class="idea-image ui medium rounded image" onclick="goToIdea('{{idea.id}}')">
+                            {% if idea.image %}
+                            <img src="{{idea.image.url}}">
+                            {% else %}
+                            <img src="https://joburg.org.za/Campaigns/PublishingImages/idea.png">
+                            {% endif %}
+                        </div>
+                        <div class="idea-body profile-link" onclick="goToIdea('{{idea.id}}')">
+                            {{idea.body|linebreaks}}
+                        </div>
+
+
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="column">
+
+                    <div>
+                        <p>No ideas to display</p>
+                    </div>
+
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    
+
+{% endblock %}
+{% block script %}<script src="{% static 'scripts/js/ideas.js' %}"></script>{% endblock %}

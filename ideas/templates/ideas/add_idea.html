@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<head>
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/ideas.css' %}">
+{% endblock %}
+
+{% block title %}New Idea{% endblock %}
+{% block page_title %}Post a New Idea or Suggestion{% endblock %}
+{% block subtitle %}Use the form on this page to post a new idea, allowing others and the chain of command to view and comment{% endblock %}
+</head>
+{% block content %}     
+
+    <body>
+        <div class="page-body">
+
+            <div id="buttons">
+                <a href="/ideas" id="idea-button" class="ui secondary button">Back</a>
+            </div>
+
+            
+            <div id="new-idea-form">
+                <form id="post_form" method="post" action="" enctype="multipart/form-data">
+
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                
+                
+                    <input type="submit" name="submit" value="Submit" />
+                </form>
+            </div>
+
+        </div>
+        
+    </body>
+    
+
+{% endblock %}
+{% block script %}<script src="{% static 'scripts/js/ideas.js' %}"></script>{% endblock %}

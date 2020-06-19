@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'semanticuiforms',
     'main',
     'albums',
+    'ideas',
     'users',
     # 'photo.apps.PhotoConfig',
     # 'photologue',
