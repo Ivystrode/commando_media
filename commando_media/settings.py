@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from env import keys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -149,3 +150,12 @@ LOGIN_URL = "login"
 TIME_ZONE = 'Europe/London'
 
 SITE_ID=1
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = keys.EMAIL_ACC
+EMAIL_HOST_PASSWORD = keys.PASSWORD
+# FROM_EMAIL = 'wobot@mail.com'
+DEFAULT_FROM_EMAIL = 'wobot@mail.com'
