@@ -17,7 +17,7 @@
                 <a href="/ideas/add_idea" id="new-idea-button" class="ui secondary button">NEW IDEA</a>
             </div>
         
-            <div class="ui one column grid">
+            <div class="ui stackable two column grid">
                 {% if ideas|length > 0 %}
                 {% for idea in ideas %}
                 <div class="column">                    
@@ -29,12 +29,13 @@
                             <a class="profile-link" href="/profile/{{idea.created_by}}">{{idea.created_by}} | {{idea.time}}</a><br>Comments: {{idea.ideacomments.all|length}}
                         </div>
 
-                        {% if idea.created_by == request.user or request.user.profile.role == 'BC' or request.user.profile.role == 'BSM' %}
                         <div class="control-buttons">
-                            <a href="{% url 'delete_idea' idea.id %}" class="ui negative button">Delete</a>
+                            <a href="/ideas/{{idea.id}}" class="ui secondary button">View</a>
+                            {% if idea.created_by == request.user or request.user.profile.role == 'BC' or request.user.profile.role == 'BSM' %}
                             <a href="{% url 'edit_idea' idea.id %}" class="ui blue button">Edit</a>
+                            <a href="{% url 'delete_idea' idea.id %}" class="ui negative button">Delete</a>
+                            {% endif %}
                         </div>
-                        {% endif %}
 
 
 
