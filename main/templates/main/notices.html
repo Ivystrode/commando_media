@@ -29,7 +29,7 @@
                             <a class="profile-link" href="/profile/{{notice.created_by}}">{{notice.created_by}} | {{notice.time}}</a><br>Comments: {{notice.noticecomments.all|length}}
                         </div>
 
-                        {% if notice.created_by == request.user or request.user.profile.role == 'BC' or request.user.profile.role == 'BSM' %}
+                        {% if notice.created_by == request.user or request.user.profile.staff == True %}
                         <div class="control-buttons">
                             <a href="{% url 'delete' notice.id %}" class="ui negative button">Delete</a>
                             <a href="{% url 'edit' notice.id %}" class="ui blue button">Edit</a>

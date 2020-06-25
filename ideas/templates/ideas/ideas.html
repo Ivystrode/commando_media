@@ -31,7 +31,7 @@
 
                         <div class="control-buttons">
                             <a href="/ideas/{{idea.id}}" class="ui secondary button">View</a>
-                            {% if idea.created_by == request.user or request.user.profile.role == 'BC' or request.user.profile.role == 'BSM' %}
+                            {% if idea.created_by == request.user or request.user.profile.staff == True %}
                             <a href="{% url 'edit_idea' idea.id %}" class="ui blue button">Edit</a>
                             <a href="{% url 'delete_idea' idea.id %}" class="ui negative button">Delete</a>
                             {% endif %}

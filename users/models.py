@@ -8,6 +8,7 @@ from PIL import Image
 class Profile(models.Model):
     roles = (
         ("Guns", "Guns"),
+        ("PC", "PC"),
         ("FST", "FST"),
         ("MT", "MT"),
         ("TACP", "TACP"),
@@ -18,6 +19,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=6, choices=roles)
     image = models.ImageField(default="default_profile_pic.jpg", upload_to="profile_pics")
+    staff = models.BooleanField(default=False)
+    approved = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user.username} Profile'
