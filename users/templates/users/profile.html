@@ -22,23 +22,33 @@
 
                 <div class="column profile-info">
 
-                    <h3>Profile Information</h3>
 
-                    <div class="profilepic">
-                        <p><strong>{{user.username}} - {{user.profile.role}}</strong></p>
-                        <img class="ui small circular image" src="{{ user.profile.image.url }}">
-                        <p></p>
-                    </div>
-        
-                    <div class="user-form">
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {{u_form|crispy}}
-                            {{p_form|crispy}}
+                        <h3>Profile Information</h3>
+
+                        <div class="profilepic">
+                            <p><strong>{{user.username}} - {{user.profile.role}}</strong></p>
+                            <img class="ui small circular image" src="{{ user.profile.image.url }}">
                             <p></p>
-                            <button type="submit" class="ui secondary button">Update</button>
-                        </form>
-                    </div>
+                        </div>
+            
+                        <div class="user-form">
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {{u_form|crispy}}
+                                {{p_form|crispy}}
+                                <p></p>
+                                <button type="submit" class="ui secondary button">Update</button>
+                            </form>
+                        </div>
+
+
+                        <div class="user-media">
+
+                            <h3>Media Uploads</h3>
+
+                            <p>Albums and photos the user has created will appear here</p>
+
+                        </div>
 
                 </div>
 
