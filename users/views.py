@@ -3,6 +3,9 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, ProfileForm, UserUpdateForm, ProfileUpdateForm
+from albums.models import Album, AlbumPhoto, Comment
+from ideas.models import Idea, IdeaComment
+from main.models import Notice, NoticeComment
 
 # Create your views here.
 def register(request):
@@ -34,25 +37,39 @@ def profile(request, username):
     except:
         raise Http404
 
+    ideas = Idea.objects.all()
+    albums = Album.objects.all()
+    photos = AlbumPhoto.objects.all()
+
+    ideacomments = IdeaComment.objects.all()
+    albumcomments = Comment.objects.all()
+    noticecomments = NoticeComment.objects.all()
+
     # editable = False
 
     if request.user.is_authenticated and request.user.username == user.username:
         editable = True
     else:
         editable = False
-
+    print("user authentication status:")
     print(request.user.is_authenticated)
+    print("logged in user same as this user's profile:")
     print(request.user.username == user.username)
 
     if editable:
         if request.method == "POST":
             u_form = UserUpdateForm(request.POST, instance=request.user)
             p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
             if u_form.is_valid() and p_form.is_valid():
                 u_form.save()
                 p_form.save()
                 messages.success(request, 'Information updated')
-                return redirect(f'/profile/{username}')
+                return redirect(f'/profile/{request.user.username}')
+            else:
+                messages.success(request, f'Invalid request - check the username does not already exist or that you are not trying to change to an unauthorised role')
+                return redirect(f'/profile/{user.username}')
+
         else:
             u_form = UserUpdateForm(instance=request.user)
             p_form = ProfileUpdateForm(instance=request.user.profile)
@@ -61,14 +78,29 @@ def profile(request, username):
         context = {
             'u_form':u_form,
             'p_form':p_form,
-            'user':request.user
+            'user':request.user,
+            'ideas':ideas,
+            'albums':albums,
+            'photos':photos,
+            'ideacomments':ideacomments,
+            'albumcomments':albumcomments,
+            'noticecomments':noticecomments
         }
     else:
         context = {
-            'user':user
+            'user':user,
+            'ideas':ideas,
+            'albums':albums,
+            'photos':photos,
+            'ideacomments':ideacomments,
+            'albumcomments':albumcomments,
+            'noticecomments':noticecomments
         }
+    print("logged in user:")
     print(request.user.username)
+    print("profile of:")
     print(user)
+    print("editable:")
     print(editable)
 
     return render(request, 'users/profile.html', context)

@@ -9,3 +9,10 @@ Django pylint in settings json with this:
         "--load-plugins=pylint_django",
      ],
 }
+
+note - when deploying remove media folder fgrom gitignore and delete all photos except defaults
+
+still to do
+- profile page
+- user model - add staff boolean
+- users - if user changes username, breaks all links in posts they made. change to use id to reference post user's name?

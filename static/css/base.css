@@ -285,6 +285,7 @@ body {
 
 .profile-link {
     color: inherit;
+    cursor: pointer;
 }
 .profile-link:visited {
     color: inherit;
