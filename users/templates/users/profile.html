@@ -30,6 +30,10 @@
                             <img class="ui small circular image" src="{{ user.profile.image.url }}">
                             <p></p>
                         </div>
+
+                        <div class="user-bio">
+                            <p>{{user.profile.bio | linebreaks}}</p>
+                        </div>
             
                         <div class="user-form">
                             <form method="POST" enctype="multipart/form-data">
@@ -88,7 +92,6 @@
                     <h4>Comments</h4>
 
                     {% for comment in ideacomments %}
-                    {% if comment.author == user.username %}
                     <div class="comment-container profile-link" onclick="goToComment('/ideas/', '{{comment.parent.id}}')">
 
                         <div class="parent-comment rounded">
@@ -102,11 +105,9 @@
                         </div>
 
                     </div>
-                    {% endif %}
                     {% endfor %}
 
                     {% for comment in albumcomments %}
-                    {% if comment.author == user.username %}
                     <div class="comment-container profile-link" onclick="goToComment('/albums/{{comment.parent.album.slug}}/', '{{comment.parent.id}}')">
 
                     <div class="parent-comment rounded">
@@ -119,11 +120,9 @@
                     </div>
 
                 </div>
-                    {% endif %}
                     {% endfor %}
 
                     {% for comment in noticecomments %}
-                    {% if comment.author == user.username %}
                     <div class="comment-container profile-link" onclick="goToComment('/notices/', '{{comment.parent.id}}')">
 
                     <div class="parent-comment rounded">
@@ -136,7 +135,6 @@
                     </div>
 
                 </div>
-                    {% endif %}
                     {% endfor %}
 
                 </div>

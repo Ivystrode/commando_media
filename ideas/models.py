@@ -23,7 +23,7 @@ class Idea(models.Model):
 
 class IdeaComment(models.Model):
     parent = models.ForeignKey(Idea, on_delete=models.CASCADE,related_name='ideacomments')
-    author = models.CharField(max_length=150)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='ideacomments')
     body = models.TextField()
     time = models.DateTimeField(default=timezone.localtime(timezone.now()))
 

@@ -38,13 +38,13 @@ def profile(request, username):
         except:
             raise Http404
 
-        ideas = Idea.objects.all()
-        albums = Album.objects.all()
-        photos = AlbumPhoto.objects.all()
+        ideas = Idea.objects.filter(created_by=user)
+        albums = Album.objects.filter(created_by=user)
+        photos = AlbumPhoto.objects.filter(created_by=user)
 
-        ideacomments = IdeaComment.objects.all()
-        albumcomments = Comment.objects.all()
-        noticecomments = NoticeComment.objects.all()
+        ideacomments = IdeaComment.objects.filter(author=user)
+        albumcomments = Comment.objects.filter(author=user)
+        noticecomments = NoticeComment.objects.filter(author=user)
 
         # editable = False
 

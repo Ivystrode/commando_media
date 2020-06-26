@@ -95,7 +95,7 @@ class AlbumPhoto(models.Model):
 class Comment(models.Model):
     # need to give comments a UUID as well? maybe also for users??
     parent = models.ForeignKey(AlbumPhoto, on_delete=models.CASCADE,related_name='comments')
-    author = models.CharField(max_length=150)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='albumphotocomments')
     body = models.TextField()
     time = models.DateTimeField(default=timezone.localtime(timezone.now()))
 

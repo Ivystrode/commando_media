@@ -23,7 +23,7 @@ class Notice(models.Model):
 
 class NoticeComment(models.Model):
     parent = models.ForeignKey(Notice, on_delete=models.CASCADE,related_name='noticecomments')
-    author = models.CharField(max_length=150)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='noticecomments')
     body = models.TextField()
     time = models.DateTimeField(default=timezone.localtime(timezone.now()))
 

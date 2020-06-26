@@ -18,6 +18,7 @@ class Profile(models.Model):
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     role = models.CharField(max_length=6, choices=roles)
+    bio = models.TextField(default="No bio set")
     image = models.ImageField(default="default_profile_pic.jpg", upload_to="profile_pics")
     staff = models.BooleanField(default=False)
     approved = models.BooleanField(default=False)
