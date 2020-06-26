@@ -55,11 +55,11 @@
 
                             {% if photos %}
 
-                            <div class="ui stackable three column grid">
+                            <div class="ui stackable three column grid container">
 
                                 {% for photo in photos %}
 
-                                <div class="column">
+                                <div class="pic-column column">
 
                                     <div class="user-photo profile-link" onclick="goToMedia('/albums/{{photo.album.slug}}/', '{{photo.id}}')"">
                                         <img id="userpic" class="ui small rounded image" src="{{photo.photo.thumbnail.url}}">

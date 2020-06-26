@@ -8,10 +8,10 @@
     margin-bottom: 1rem;
 }
 
-/* .user-photo {
-    height: 100%;
-    width: 100%;
-} */
+.pic-column {
+    min-height: 150px;
+    min-width: 250px;
+}
 .user-photo:hover {
     transform: scale(1.03);
 }
