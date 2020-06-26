@@ -19,5 +19,9 @@ function goToIdea(id) {
 function goToComment(location, id) {
     window.location.href = location + id
 }
+function goToMedia(location, id) {
+    console.log("go to media")
+    window.location.href = location + id
+}
 
 console.log("profile js loaded")

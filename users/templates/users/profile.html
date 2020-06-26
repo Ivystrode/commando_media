@@ -34,6 +34,8 @@
                         <div class="user-bio">
                             <p>{{user.profile.bio | linebreaks}}</p>
                         </div>
+
+                        <hr>
             
                         <div class="user-form">
                             <form method="POST" enctype="multipart/form-data">
@@ -43,14 +45,41 @@
                                 <p></p>
                                 <button type="submit" class="ui secondary button">Update</button>
                             </form>
+                            <hr>
                         </div>
 
 
                         <div class="user-media">
 
-                            <h3>Media Uploads</h3>
+                            <h3>Media</h3>
 
-                            <p>Albums and photos the user has created will appear here</p>
+                            {% if photos %}
+
+                            <div class="ui stackable three column grid">
+
+                                {% for photo in photos %}
+
+                                <div class="column">
+
+                                    <div class="user-photo profile-link" onclick="goToMedia('/albums/{{photo.album.slug}}/', '{{photo.id}}')"">
+                                        <img class="ui small rounded image" src="{{photo.photo.thumbnail.url}}">
+                                        <span>{{photo.caption}}</span>
+                                    </div>
+
+                                </div>
+
+                                {% endfor %}
+
+                            </div>
+
+
+
+                            {% else %}
+
+                            <p>User has not uploaded any media</p>
+
+                            {% endif %}
+
 
                         </div>
 
