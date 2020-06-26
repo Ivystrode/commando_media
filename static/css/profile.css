@@ -8,13 +8,16 @@
     margin-bottom: 1rem;
 }
 
-.user-photo {
+/* .user-photo {
     height: 100%;
     width: 100%;
+} */
+.user-photo:hover {
+    transform: scale(1.03);
 }
-img.image {
-    height: 400px;
-    width: 400px;
+#userpic {
+    height: 150px;
+    width: 250px;
 }
 
 .profile-info {

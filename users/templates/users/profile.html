@@ -62,8 +62,8 @@
                                 <div class="column">
 
                                     <div class="user-photo profile-link" onclick="goToMedia('/albums/{{photo.album.slug}}/', '{{photo.id}}')"">
-                                        <img class="ui small rounded image" src="{{photo.photo.thumbnail.url}}">
-                                        <span>{{photo.caption}}</span>
+                                        <img id="userpic" class="ui small rounded image" src="{{photo.photo.thumbnail.url}}">
+                                        <span><strong>{{photo.album.title}}</strong> - {{photo.caption}}</span>
                                     </div>
 
                                 </div>
