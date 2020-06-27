@@ -6,12 +6,22 @@ from django.contrib import messages
 from .models import Notice
 from .forms import NoticeCreationForm, NoticeCommentForm, DeleteNoticeForm, EditNoticeForm
 
+from albums.models import Album
+from ideas.models import Idea
+from users.models import User
+
 # Create your views here.
 @login_required()
 def home(request):
 
 
-    context = {'user': request.user}
+    context = {
+        'user': request.user,
+        'notices':Notice.objects.all(),
+        'ideas':Idea.objects.all(),
+        'albums':Album.objects.all(),
+        'users':User.objects.all()
+    }
     print(request.user)
 
 
