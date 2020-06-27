@@ -7,7 +7,7 @@
 
 {% block title %}29 Commando{% endblock %}
 {% block page_title %}29 Commando Online{% endblock %}
-{% block subtitle %}A repository for all ranks to upload only non security-classified media and communicate{% endblock %}
+{% block subtitle %}A repository for all ranks to upload non security-classified media and communicate{% endblock %}
 </head>
 {% block content %}     
 
@@ -17,11 +17,12 @@
                 <h3>Welcome to 29 Commando Online</h3>
                 <p>This website is open to all ranks. Its purpose is for members to share media with everyone else - great pictures they've taken of things they've done or witnessed with the Regiment.</p>
                 <p>Once your account is approved, you will be able to upload photo albums and pictures, submit ideas, post comments, and view others' profiles to see what they have contributed.</p>                
-                <hr>
+                
             </div>
 
             
-
+            {% if request.user.profile.approved %}
+            <hr>
             <div class = "ui stackable four column inverted divided grid">
 
                 <div class="row">
@@ -72,26 +73,36 @@
                     <div class="column">
                         {% if notices %}
                         <h5>Latest Notices</h5>
-                        <table class="ui celled inverted table">
+
+
+                        <div class="table-container">
+                            <table class="ui celled inverted table">
     
-                            <thead>
-                              <tr>
-                                <th>Creator</th>
-                                <th>Title</th>
-                                <th>Date/Time</th>
-                              </tr>
-                            </thead>
+                                <thead>
+                                  <tr>
+                                    <th>Creator</th>
+                                    <th>Title</th>
+                                    <th>Date/Time</th>
+                                  </tr>
+                                </thead>
+        
+                                <tbody>
     
-                            <tbody>
-                            {% for notice in notices %}
-                              <tr class="profile-link" onclick="goToNotice('{{notice.id}}')">
-                                <td>{{notice.created_by}} - {{notice.created_by.profile.role}}</td>
-                                <td>{{notice.title}}</td>
-                                <td>{{notice.time}}</td>
-                              </tr>
-                              {% endfor %}
-                            </tbody>
-                          </table>
+                                {% for notice in notices %}
+                                  <tr class="profile-link" onclick="goToNotice('{{notice.id}}')">
+                                    <td>{{notice.created_by}} - {{notice.created_by.profile.role}}</td>
+                                    <td>{{notice.title}}</td>
+                                    <td>{{notice.time}}</td>
+                                  </tr>
+                                  {% endfor %}
+    
+                                </tbody>
+    
+                              </table>
+                        </div>
+
+
+
                           {% endif %}
                     </div>
 
@@ -99,69 +110,80 @@
                     <div class="column">
                         {% if ideas %}
                         <h5>Latest Ideas</h5>
-                        <table class="ui celled inverted table">
+
+                        <div class="table-container">
+                            <table class="ui celled inverted table">
     
-                            <thead>
-                              <tr>
-                                <th>Creator</th>
-                                <th>Title</th>
-                                <th>Date/Time</th>
-                              </tr>
-                            </thead>
-    
-                            <tbody>
-                            {% for idea in ideas %}
-                              <tr class="profile-link" onclick="goToIdea('{{idea.id}}')">
-                                <td>{{idea.created_by}}</td>
-                                <td>{{idea.title}}</td>
-                                <td>{{idea.time}}</td>
-                              </tr>
-                              {% endfor %}
-                            </tbody>
-                          </table>
+                                <thead>
+                                  <tr>
+                                    <th>Creator</th>
+                                    <th>Title</th>
+                                    <th>Date/Time</th>
+                                  </tr>
+                                </thead>
+        
+                                <tbody>
+                                {% for idea in ideas %}
+                                  <tr class="profile-link" onclick="goToIdea('{{idea.id}}')">
+                                    <td>{{idea.created_by}}</td>
+                                    <td>{{idea.title}}</td>
+                                    <td>{{idea.time}}</td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                        </div>
+
                           {% endif %}
                     </div>
 
                     <div class="column">
                         {% if albums %}
                         <h5>Latest Albums</h5>
-                        <table class="ui celled inverted table">
+                        <div class="table-container">
+                            <table class="ui celled inverted table">
     
-                            <thead>
-                              <tr>
-                                <th>Creator</th>
-                                <th>Title</th>
-                                <th>Date/Time</th>
-                              </tr>
-                            </thead>
-    
-                            <tbody>
-                            {% for album in albums %}
-                              <tr class="profile-link" onclick="goToAlbum('{{album.slug}}')">
-                                <td>{{album.created_by}}</td>
-                                <td>{{album.title}}</td>
-                                <td>{{album.time}}</td>
-                              </tr>
-                              {% endfor %}
-                            </tbody>
-                          </table>
+                                <thead>
+                                  <tr>
+                                    <th>Creator</th>
+                                    <th>Title</th>
+                                    <th>Date/Time</th>
+                                  </tr>
+                                </thead>
+        
+                                <tbody>
+                                {% for album in albums %}
+                                  <tr class="profile-link" onclick="goToAlbum('{{album.slug}}')">
+                                    <td>{{album.created_by}}</td>
+                                    <td>{{album.title}}</td>
+                                    <td>{{album.time}}</td>
+                                  </tr>
+                                  {% endfor %}
+                                </tbody>
+                              </table>
+                        </div>
+
                           {% endif %}
     
                     </div>
 
                     <div class="column">
                         <h5>Users</h5>
-                        <p class="ui inverted segment"><strong>Active users:</strong> {{users|length}}</p>
+                        <div class="table-container">
+                            <p class="ui inverted segment"><strong>Active users:</strong> {{users|length}}</p>
+                            
+                        </div>
                     </div>
                 </div>
 
                 
 
             </div>
+            {% endif %}
             
         </div>
         
     
 
 {% endblock %}
-{% block script %}<script src="{% static 'scripts/js.base.js' %}"></script>{% endblock %}
+{% block script %}<script src="{% static 'scripts/js/home.js' %}"></script>{% endblock %}

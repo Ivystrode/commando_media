@@ -15,3 +15,13 @@
 /* .column {
     border: 1px solid white;
 } */
+
+.table-container {
+    overflow-x: scroll;
+    scrollbar-width: None;
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+.table-container::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+}
