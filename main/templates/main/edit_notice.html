@@ -25,6 +25,7 @@
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{form | crispy}}
+                    <p></p>
                     <button type="submit" class="ui blue button">Confirm</button>
                     <a href="/notices" class="ui gray button">Cancel</a>
                 </form>
