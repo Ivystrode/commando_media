@@ -140,17 +140,18 @@ def edit_notice(request, id):
             if request.method == "POST":
                 form = EditNoticeForm(request.POST, request.FILES, instance=notice)
                 if form.is_valid():
-                    edited_notice = form.save(commit=False)
+                    # edited_notice = form.save(commit=False)
                     print("form cleaned data")
                     print(form.cleaned_data)
                     print("edited notice")
-                    edited_notice.created_by = notice.created_by
-                    edited_notice.time = notice.time
-                    edited_notice.slug = notice.slug
-                    edited_notice.id = notice.id
-                    print(edited_notice)
-                    edited_notice.save()
-                    messages.success(request, f'Edits saved to: {edited_notice.title}')
+                    # edited_notice.created_by = notice.created_by
+                    # edited_notice.time = notice.time
+                    # edited_notice.slug = notice.slug
+                    # edited_notice.id = notice.id
+                    # print(edited_notice)
+                    # edited_notice.save()
+                    form.save()
+                    messages.success(request, f'Edits saved to: {notice.title}')
                     return redirect('/notices')
             
             else:

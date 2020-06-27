@@ -22,7 +22,7 @@
 
 
             <div class="edit-form">
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{form | crispy}}
                     <button type="submit" class="ui blue button">Confirm</button>

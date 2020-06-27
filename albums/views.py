@@ -137,7 +137,7 @@ def edit_album(request, slug):
         album = Album.objects.get(slug=slug)
         if request.user == album.created_by or request.user.profile.staff:
             if request.method == "POST":
-                form = EditAlbumForm(request.POST, request.FILES, instance=album)
+                form = EditAlbumForm(request.POST, instance=album)
                 if form.is_valid():
                     edited_album = form.save(commit=False)
                     print("form cleaned data")

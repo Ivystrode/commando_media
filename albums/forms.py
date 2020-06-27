@@ -29,11 +29,10 @@ class DeleteAlbumForm(forms.ModelForm):
 
 class EditAlbumForm(forms.ModelForm):
     
-    coverpic = forms.ImageField(required=True)
 
     class Meta:
         model = Album
-        fields = ['title', 'coverpic']
+        fields = ['title']
 
 
 class DeletePictureForm(forms.ModelForm):

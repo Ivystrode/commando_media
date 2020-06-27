@@ -30,9 +30,10 @@
 
 
             <div class="edit-form">
-                <form method="POST">
+                <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{form | crispy}}
+                    <p></p>
                     <button type="submit" class="ui blue button">Confirm</button>
                     <a href="/albums/{{album.slug}}/{{picture.id}}" class="ui gray button">Cancel</a>
                 </form>

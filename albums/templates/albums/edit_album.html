@@ -26,6 +26,7 @@
                 <form method="POST">
                     {% csrf_token %}
                     {{form | crispy}}
+                    <p></p>
                     <button type="submit" class="ui blue button">Confirm</button>
                     <a href="/albums" class="ui gray button">Cancel</a>
                 </form>
