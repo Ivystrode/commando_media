@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib import admin
 # from django.db.models.signals import post_save
 # from django.dispatch import receiver
 from PIL import Image
@@ -37,7 +39,16 @@ class Profile(models.Model):
             img.save(self.image.path)
 
 
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'profile'
 
+class UserAdmin(BaseUserAdmin):
+    inlines = (ProfileInline, )
+
+
+    
 # @receiver(post_save, sender=User)
 # def create_user_profile(sender, instance, created, **kwargs):
 #     if created:
