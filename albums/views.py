@@ -255,12 +255,13 @@ def edit_picture(request, slug, id):
             else:
                 existing_data = {'caption':picture.caption, 'photo': picture.photo}
                 form = EditPictureForm(initial=existing_data)
+                # return render(request, 'albums/edit_picture.html', {'picture':picture, 'album':album})
         else:
             print("not staff user")
             messages.success(request, f'You may only edit this post if you are the creator or HQ staff')
-            return render(request, "albums/picture_detail.html", {'picture':picture})
+            return render(request, "albums/picture_detail.html", {'picture':picture, 'album':album})
 
-        return render(request, "albums/edit_picture.html", {'form':form, 'picture':picture})
+        return render(request, "albums/edit_picture.html", {'form':form, 'picture':picture, 'album':album})
     else:
         messages.success(request, f'You cannot access this page until your account has been approved.')
         return redirect('/')

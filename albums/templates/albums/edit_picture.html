@@ -34,7 +34,7 @@
                     {% csrf_token %}
                     {{form | crispy}}
                     <button type="submit" class="ui blue button">Confirm</button>
-                    <a href="/{{album.slug}}/{{picture.id}}" class="ui gray button">Cancel</a>
+                    <a href="/albums/{{album.slug}}/{{picture.id}}" class="ui gray button">Cancel</a>
                 </form>
                 
             </div>
