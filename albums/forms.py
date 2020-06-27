@@ -23,5 +23,28 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['body']
 
+class DeleteAlbumForm(forms.ModelForm):
 
+    model = Album
+
+class EditAlbumForm(forms.ModelForm):
+    
+    coverpic = forms.ImageField(required=True)
+
+    class Meta:
+        model = Album
+        fields = ['title', 'coverpic']
+
+
+class DeletePictureForm(forms.ModelForm):
+
+    model = AlbumPhoto
+
+class EditPictureForm(forms.ModelForm):
+    
+    photo = forms.ImageField(required=True)
+
+    class Meta:
+        model = AlbumPhoto
+        fields = ['caption', 'photo']
 

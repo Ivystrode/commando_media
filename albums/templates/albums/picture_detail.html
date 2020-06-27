@@ -17,6 +17,10 @@
 
             <div id="buttons">
                 <a href="/albums/{{album.slug}}" id="album-button" class="ui secondary button">Back</a>
+                {% if picture.created_by == request.user or request.user.profile.staff == True %}
+                <a href="{% url 'edit_picture' album.slug picture.id %}" class="ui blue button">Edit</a>
+                <a href="{% url 'delete_picture' album.slug picture.id %}" class="ui negative button">Delete</a>
+                {% endif %}
             </div>
 
             <div class="picture_detail">

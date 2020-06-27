@@ -17,6 +17,10 @@
             <div id="buttons">
                 <a href="/albums" id="album-button" class="ui secondary button">All Albums</a>
                 <a href="/albums/{{album.slug}}/add_photo" id="add-photo-button" class="ui secondary button">Add Picture</a>
+                {% if album.created_by == request.user or request.user.profile.staff == True %}
+                <a href="{% url 'edit_album' album.slug %}" class="ui blue button">Edit</a>
+                <a href="{% url 'delete_album' album.slug %}" class="ui negative button">Delete</a>
+                {% endif %}
             </div>
 
             <div class="ui doubling stackable five column grid">

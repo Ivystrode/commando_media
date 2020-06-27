@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
-from .forms import AlbumCreationForm, PhotoUploadForm, CommentForm
+from .forms import *
 from django.forms import modelformset_factory
 from .models import Album, AlbumPhoto, Comment
 
@@ -111,6 +111,61 @@ def picture_detail(request, id, slug):
         return redirect('/')
 
 @login_required()
+def delete_album(request, slug):
+    if request.user.profile.approved:
+        album_to_delete = Album.objects.get(slug=slug)
+        context = {'album':album_to_delete}
+        if request.method == "POST":
+            if request.user == album_to_delete.created_by or request.user.profile.staff:
+                print("deleted" + str(album_to_delete.title))
+                album_to_delete.delete()
+                print("deleted")
+                messages.success(request, f'Album deleted')
+                return redirect('/albums')
+            else:
+                messages.success(request, f'You may only delete albums if you are the creator or HQ staff')
+                return redirect(f'/albums')
+        return render(request, "albums/delete_album.html", context)
+    else:
+        messages.success(request, f'You cannot access this page until your account has been approved.')
+        return redirect('/')
+
+@login_required()
+def edit_album(request, slug):
+    if request.user.profile.approved:
+        print("EDIT ROUTE")
+        album = Album.objects.get(slug=slug)
+        if request.user == album.created_by or request.user.profile.staff:
+            if request.method == "POST":
+                form = EditAlbumForm(request.POST, request.FILES, instance=album)
+                if form.is_valid():
+                    edited_album = form.save(commit=False)
+                    print("form cleaned data")
+                    print(form.cleaned_data)
+                    print("edited idea")
+                    print(edited_album)
+                    edited_album.slug = slugify(edited_album.title)# slugify(form.cleaned_data('title'))
+                    edited_album.save()
+                    messages.success(request, f'Edits saved to: {edited_album.title}')
+                    return redirect(f'/albums/{album.slug}')
+            
+            else:
+                existing_data = {'title':album.title, 'coverpic': album.coverpic}
+                form = EditAlbumForm(initial=existing_data)
+        else:
+            print("not staff user")
+            messages.success(request, f'You may only edit this post if you are the creator or HQ staff')
+            return render(request, "albums/album_detail.html", {'album':album})
+
+        return render(request, "albums/edit_album.html", {'form':form, 'album':album})
+    else:
+        messages.success(request, f'You cannot access this page until your account has been approved.')
+        return redirect('/')
+
+
+
+
+@login_required()
 def add_photo(request, slug):
     if request.user.profile.approved:
         album = Album.objects.get(slug=slug)
@@ -152,6 +207,60 @@ def add_photo(request, slug):
             formset = PhotoFormSet(queryset=AlbumPhoto.objects.none())
 
         return render(request, "albums/add_photo.html", {'album':album, 'formset':formset})
+    else:
+        messages.success(request, f'You cannot access this page until your account has been approved.')
+        return redirect('/')
+
+
+@login_required()
+def delete_picture(request, slug, id):
+    if request.user.profile.approved:
+        picture_to_delete = AlbumPhoto.objects.get(id=id)
+        album = Album.objects.get(slug=picture_to_delete.album.slug)
+        context = {'picture':picture_to_delete, 'album':album}
+        if request.method == "POST":
+            if request.user == picture_to_delete.created_by or request.user.profile.staff:
+                print("deleted" + str(picture_to_delete.caption))
+                picture_to_delete.delete()
+                print("deleted")
+                messages.success(request, f'Photo deleted')
+                return redirect(f'/albums/{album.slug}')
+            else:
+                messages.success(request, f'You may only delete photos if you are the creator or HQ staff')
+                return redirect(f'/albums/{album.slug}/{picture_to_delete.id}')
+        return render(request, 'albums/delete_picture.html', context)
+    else:
+        messages.success(request, f'You cannot access this page until your account has been approved.')
+        return redirect(f'/albums/{album.slug}')
+
+@login_required()
+def edit_picture(request, slug, id):
+    if request.user.profile.approved:
+        print("EDIT ROUTE")
+        picture = AlbumPhoto.objects.get(id=id)
+        album = Album.objects.get(slug=slug)
+        if request.user == picture.created_by or request.user.profile.staff:
+            if request.method == "POST":
+                form = EditPictureForm(request.POST, request.FILES, instance=picture)
+                if form.is_valid():
+                    edited_picture = form.save(commit=False)
+                    print("form cleaned data")
+                    print(form.cleaned_data)
+                    print("edited picture")
+                    print(edited_picture)
+                    edited_picture.save()
+                    messages.success(request, f'Edits saved to: {edited_picture.caption}')
+                    return redirect(f'/albums/{album.slug}/{picture.id}')
+            
+            else:
+                existing_data = {'caption':picture.caption, 'photo': picture.photo}
+                form = EditPictureForm(initial=existing_data)
+        else:
+            print("not staff user")
+            messages.success(request, f'You may only edit this post if you are the creator or HQ staff')
+            return render(request, "albums/picture_detail.html", {'picture':picture})
+
+        return render(request, "albums/edit_picture.html", {'form':form, 'picture':picture})
     else:
         messages.success(request, f'You cannot access this page until your account has been approved.')
         return redirect('/')

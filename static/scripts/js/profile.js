@@ -23,5 +23,9 @@ function goToMedia(location, id) {
     console.log("go to media")
     window.location.href = location + id
 }
+function goToAlbum(slug) {
+    console.log("go to media")
+    window.location.href = '/albums/' + slug
+}
 
 console.log("profile js loaded")

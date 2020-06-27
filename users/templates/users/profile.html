@@ -53,7 +53,29 @@
 
                             <h3>Media</h3>
 
+
+
+
+                            {% if albums %}
+                            <h4>Albums</h4>
+
+                            {% for album in albums %}
+
+                            <div class="container">
+                                <div class="user-album">
+                                    <div class="user-album profile-link" onclick="goToAlbum('{{album.slug}}')">
+                                        <span><strong>{{album.title}}</strong> - {{album.photos.all|length}} pictures</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% endfor %}
+
+                            {% endif %}
+
                             {% if photos %}
+
+                            <h4>Pictures</h4>
 
                             <div class="ui stackable three column grid container">
 
