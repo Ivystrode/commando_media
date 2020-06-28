@@ -52,7 +52,6 @@ def create_album(request):
 
                 new_album.save()
 
-                # new_photo = AlbumPhoto.objects.create(album=new_album, photo=new_album.coverpic, thumb=new_album.coverpic, caption='Album Cover', created_by=request.user)
                 new_photo = AlbumPhoto.objects.create(album=new_album, photo=new_album.coverpic, caption='Album Cover', created_by=request.user)
                 new_photo.save()
 
@@ -144,7 +143,7 @@ def edit_album(request, slug):
                     print(form.cleaned_data)
                     print("edited idea")
                     print(edited_album)
-                    edited_album.slug = slugify(edited_album.title)# slugify(form.cleaned_data('title'))
+                    edited_album.slug = slugify(edited_album.title)
                     edited_album.save()
                     messages.success(request, f'Edits saved to: {edited_album.title}')
                     return redirect(f'/albums/{album.slug}')
@@ -170,43 +169,33 @@ def add_photo(request, slug):
     if request.user.profile.approved:
         album = Album.objects.get(slug=slug)
 
-        PhotoFormSet = modelformset_factory(AlbumPhoto, form=PhotoUploadForm, extra=5)
+        if album.open == True or (request.user.profile.staff == True and album.open == False) or album.created_by == request.user:
 
-        if request.method == "POST":
-            formset = PhotoFormSet(request.POST, request.FILES, queryset=AlbumPhoto.objects.none())
+            PhotoFormSet = modelformset_factory(AlbumPhoto, form=PhotoUploadForm, extra=5)
 
-            if formset.is_valid():
+            if request.method == "POST":
+                formset = PhotoFormSet(request.POST, request.FILES, queryset=AlbumPhoto.objects.none())
 
-                for form in formset.cleaned_data:
-                    if form:
-                        # photo = form['photo']
+                if formset.is_valid():
 
-                        # new_photo = AlbumPhoto(album = Album.objects.get(slug=slug), photo = form['photo'], thumb = form['photo'], created_by = request.user, caption=form['caption'])
-                        new_photo = AlbumPhoto(album = Album.objects.get(slug=slug), photo = form['photo'], created_by = request.user, caption=form['caption'])
-                        # print("Saved: " + new_photo.caption)
-                        # new_photo.save()
+                    for form in formset.cleaned_data:
+                        if form:
+                            new_photo = AlbumPhoto(album = Album.objects.get(slug=slug), photo = form['photo'], created_by = request.user, caption=form['caption'])
+                            new_photo.save()
+                            print(f"saved {new_photo.caption} to {new_photo.album.title}")
+                    return redirect(f'/albums/{album.slug}')
+                else:
+                    print(formset.errors)
 
-                        # new_photo = form.save(commit=False)
-                        # new_photo.album = Album.objects.get(slug=slug)
-                        # new_photo.thumb = new_photo.photo
-                        # new_photo.created_by = request.user
-
-                        # print("Picture upload data stored in variable")
-
-                        # print(form.cleaned_data)
-
-                        # print("form data on line above this")
-
-                        new_photo.save()
-                        print(f"saved {new_photo.caption} to {new_photo.album.title}")
-                return redirect(f'/albums/{album.slug}')
             else:
-                print(formset.errors)
+                formset = PhotoFormSet(queryset=AlbumPhoto.objects.none())
+
+            return render(request, "albums/add_photo.html", {'album':album, 'formset':formset})
 
         else:
-            formset = PhotoFormSet(queryset=AlbumPhoto.objects.none())
+            messages.success(request, f'The owner of this album has not allowed other users to add pictures.')
+            return redirect(f'/albums/{album.slug}')
 
-        return render(request, "albums/add_photo.html", {'album':album, 'formset':formset})
     else:
         messages.success(request, f'You cannot access this page until your account has been approved.')
         return redirect('/')

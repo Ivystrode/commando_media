@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+<head>
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/notices.css' %}">
+{% endblock %}
+
+{% block title %}Contact{% endblock %}
+{% block page_title %}Contact{% endblock %}
+{% block subtitle %}Send a message to the site administrator using the form below{% endblock %}
+</head>
+{% block content %}     
+
+    <body>
+        <div class="page-body">
+
+            <div id="buttons">
+                <a href="/" id="notice-button" class="ui secondary button">Home</a>
+            </div>
+
+            
+            <div id="new-notice-form">
+                <form id="post_form" method="post" action="">
+
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                
+                    <p></p>
+                    <input class="ui secondary button" type="submit" name="submit" value="Send" />
+                </form>
+            </div>
+
+        </div>
+        
+    </body>
+    
+
+{% endblock %}
+{% block script %}<script src="{% static '' %}"></script>{% endblock %}

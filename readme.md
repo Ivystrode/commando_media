@@ -16,5 +16,5 @@ to use virtual env
 note - when deploying remove media folder fgrom gitignore and delete all photos except defaults
 
 still to do
-- profile page - pad out, maybe add a bio option? exercises, operation experience fields?
-- add full CRUD to albums and album photos
+- add location information to user profile
+- use things learned in pixel tracker to gather information

@@ -62,6 +62,7 @@ class Album(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='albums')
     slug = models.SlugField()
     time = models.DateTimeField(default=timezone.localtime(timezone.now()))
+    open = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-time']

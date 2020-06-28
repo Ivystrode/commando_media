@@ -3,8 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.contrib import messages
+from django.core.mail import send_mail
+
+from env import keys
+
 from .models import Notice
-from .forms import NoticeCreationForm, NoticeCommentForm, DeleteNoticeForm, EditNoticeForm
+from .forms import NoticeCreationForm, NoticeCommentForm, DeleteNoticeForm, EditNoticeForm, CustomEmailForm
 
 from albums.models import Album
 from ideas.models import Idea
@@ -26,6 +30,42 @@ def home(request):
 
 
     return render(request, "main/home.html", context)
+
+@login_required
+def contact(request):
+    print("contact")
+    if request.user.profile.approved:
+        print("contact approved")
+        if request.method == "POST":
+            form = CustomEmailForm(data=request.POST)
+            if form.is_valid():
+                print("EMAIL")
+
+                new_email = form.save(commit=False)
+                new_email.from_user = request.user
+                print(new_email.subject)
+                print(new_email.sender_email)
+                new_email.body = new_email.body + f"\n\nSent by: {new_email.from_user}\n\nSender email in form: {new_email.sender_email} - User's registered email: {new_email.from_user.email}"
+                print(new_email.body)
+                print(new_email.from_user)
+                new_email.save()
+
+                message_to_send = send_mail(new_email.subject, new_email.body, keys.EMAIL_ACC, [keys.RECEIVER_EMAIL, ''], fail_silently=False)
+
+                messages.success(request, f'Your message has been sent. Any replies will be sent to the email you supplied.')
+                return redirect('/contact', message_to_send)
+        else:
+            form = CustomEmailForm()
+            
+        print("contact page loaded")
+        return render(request, 'main/contact.html', {'form':form})
+
+
+    else:
+        messages.success(request, f'You cannot access this page until your account has been approved.')
+        return redirect('/')
+            
+
 
 @login_required()
 def notices(request):

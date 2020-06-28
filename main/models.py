@@ -33,6 +33,17 @@ class NoticeComment(models.Model):
     def __str__(self):
         return f'Comment by {self.author}: {self.body}'
 
+class CustomEmailMessage(models.Model):
+    sender_email = models.CharField(max_length=200, verbose_name="Email Address")
+    subject = models.CharField(max_length=200)
+    body = models.TextField(verbose_name="Message")
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="emailstoadmin")
+    time = models.DateTimeField(default=timezone.localtime(timezone.now()))
+
+    
+    def __str__(self):
+        return f'Email by {self.from_user}: {self.body}'
+
 #==========MODEL ADMIN==========
 
 class NoticeCommentAdmin(admin.ModelAdmin):

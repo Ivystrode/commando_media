@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Notice, NoticeComment
+from .models import Notice, NoticeComment, CustomEmailMessage
 
 class NoticeCreationForm(forms.ModelForm):
 
@@ -27,3 +27,10 @@ class EditNoticeForm(forms.ModelForm):
     class Meta:
         model = Notice
         fields = ['title', 'image', 'body']
+
+class CustomEmailForm(forms.ModelForm):
+
+
+    class Meta:
+        model = CustomEmailMessage
+        fields = ['sender_email', 'subject', 'body']
