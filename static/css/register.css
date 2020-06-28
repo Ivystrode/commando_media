@@ -17,6 +17,10 @@ body {
     image-orientation: from-image;
 }
 
+#messagealert {
+    margin: 4rem;
+}
+
 .user-form {
     z-index: 1;
     position: relative;

@@ -18,6 +18,17 @@
         <img class="bg-img" src="/static/media/landing2.jpg">
     </div>
 
+    {% if messages %}
+    {% for message in messages %}
+    <div id="messagealert" class="ui black message flashmessage">
+        <div class="header">
+          INFO
+        </div>
+        <p>{{message}}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
+
 
     {% load crispy_forms_tags %}
     <div class="user-form">

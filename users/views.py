@@ -7,20 +7,162 @@ from albums.models import Album, AlbumPhoto, Comment
 from ideas.models import Idea, IdeaComment
 from main.models import Notice, NoticeComment
 
+import requests, json
+from ua_parser import user_agent_parser
+
 # Create your views here.
 def register(request):
     if request.method == "POST":
+
+
+
+        #==========VISITOR INFO COLLECTION==========
+        print("=====META KEYS=====")
+        print(request.META.keys())
+
+        visinfo = {}
+
+        # Getting the IP
+        if 'HTTP_X_FORWARDED_FOR' in request.META.keys() and request.META['HTTP_X_FORWARDED_FOR'] is not None:
+            ip = request.META['HTTP_X_FORWARDED_FOR']
+        else:
+            ip = ''    
+        print("=====IP content=====")
+        ipdata_url = "https://api.ipdata.co/"+ip+"?api-key=2426c12568210a843d3ac8e14d9933764e73f0d8e84fc92834314a58"  
+        ip_info = requests.get(ipdata_url)
+        ip_content = json.loads(ip_info.content)
+        print(ip_content)
+
+        client = ''
+        os = ''
+        device = ''
+
+        if 'HTTP_USER_AGENT' in request.META.keys():
+            ua_string = request.META['HTTP_USER_AGENT']
+            parsed_string = user_agent_parser.Parse(ua_string)
+        if 'user_agent' in parsed_string.keys():
+            agent_data = parsed_string['user_agent']
+        if 'family' in agent_data.keys():
+            client = agent_data['family']
+
+        if 'os' in parsed_string.keys():
+            os_data = parsed_string['os']
+        if 'family' in os_data.keys():
+            os = os_data['family']
+
+        if 'device' in parsed_string.keys():
+            device_data = parsed_string['device']
+        if 'family' in device_data.keys():
+            device = device_data['family']
+
+    # get all the info VERY inefficiently
+
+        if 'ip' in ip_content.keys():
+            result = ip_content
+            if 'region' in result.keys():
+                region = result['region']
+            else:
+                region = ''
+            if 'country_name' in result.keys():
+                country_name = result['country_name']
+            else:
+                country_name = ''
+            if 'city' in result.keys():
+                city = result['city']
+            else:
+                city = ''
+            if 'latitude' in result.keys():
+                latitude = result['latitude']
+            else:
+                latitude = ''
+            if 'longitude' in result.keys():
+                longitude = result['longitude']
+            else:
+                longitude = ''    
+            if 'organisation' in result.keys():
+                isp = result['organisation']
+            else:
+                isp = ''
+
+        visinfo['IP'] = result['ip']
+        if isp == '':
+            visinfo['ISP'] = 'Unknown'
+        else:
+            visinfo['ISP'] = isp
+        visinfo['Provider'] = result['asn']['name']
+        visinfo['Provider_site'] = result['asn']['domain']
+        visinfo['Region'] = region
+        visinfo['Country'] = country_name
+        visinfo['City'] = city
+        visinfo['Latitude'] = latitude
+        visinfo['Longitude'] = longitude
+        visinfo['OS'] = os
+        visinfo['User_Agent'] = agent_data
+        visinfo['Client'] = client
+        visinfo['Device_Data'] = device_data
+        visinfo['Device'] = device
+        visinfo['Visit_Time_Local'] = result['time_zone']['current_time']
+        visinfo['Tor'] = result['threat']['is_tor']
+        visinfo['Proxy'] = result['threat']['is_proxy']
+        visinfo['Anonymous'] = result['threat']['is_anonymous']
+        visinfo['Is_threat'] = result['threat']['is_threat']
+
+        print("=====")
+        print("visinfo: \n")
+        print(visinfo)
+
+        print('=====')
+        for key, info in visinfo.items():
+            print(key + ': ')
+            print(info)
+            print('')
+
+        try:
+            #ENABLED to see it working on heroku
+            print("Activating Emailer")
+            #emailer.visitalert(visinfo)
+            print("Email sent")
+
+            # if visinfo['Is_threat'] == True:
+            #     print("Activating email script...")
+            #     emailer.visitalert(visinfo)
+            #     print("THREATENING VISITOR DETECTED")
+            # else:
+            #     print("Else statement. No email sent. Visitor not a threat.")
+        except Exception as e:
+            print("Error: Email not sent")
+            print("Error details:")
+            print(e)
+            print("\n")
+    
+    #==========END OF VISITOR INFO COLLECTION==========
+        print("saving user")
+
         form = UserRegisterForm(request.POST)
         d_form = ProfileForm(request.POST)
         if form.is_valid() and d_form.is_valid():
+            print("saving user FORM VALID")
             user = form.save()
-            d_form = d_form.save(commit=False)
-            d_form.user = user
-            d_form.save()
+            new_user = d_form.save(commit=False)
+            new_user.user = user
+
+
+            new_user.ip_address = visinfo['IP']
+            new_user.isp = visinfo['ISP']
+            new_user.provider = visinfo['Provider']
+            new_user.region = visinfo['Region']
+            new_user.country = visinfo['Country']
+            new_user.city = visinfo['City']
+            new_user.latitude = str(visinfo['Latitude'])
+            new_user.longitude = str(visinfo['Longitude'])
+            new_user.os = visinfo['OS']
+            new_user.client = visinfo['Client']
+            new_user.device = visinfo['Device']
+
+            new_user.save()
 
             username = form.cleaned_data.get('username')
-            print(form.cleaned_data)
-            messages.success(request, f'Account created for {username}. Your account will now be reviewed by the administrator before you can access the site.')
+            messages.success(request, f'Account created for {username} - {new_user.service_number}. Your account will have limited access until it is approved by an administrator.')
             return redirect('/login')
     else:
         form = UserRegisterForm()
