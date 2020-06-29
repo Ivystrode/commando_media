@@ -61,13 +61,18 @@ class ProfileInline(admin.StackedInline):
 
 class UserAdmin(BaseUserAdmin):
     inlines = (ProfileInline, )
-    list_display = ['username', 'get_service_number', 'email', 'get_role', 'get_approved_status']
+    list_display = ['username', 'get_service_number', 'email', 'get_role', 'get_approved_status', 'get_staff_status']
     # list_editable = ['get_approved_status']
 
     def get_approved_status(self, obj):
         return obj.profile.approved
     get_approved_status.admin_order_field = 'approved'
     get_approved_status.short_description = 'Approved status'
+
+    def get_staff_status(self, obj):
+        return obj.profile.staff
+    get_staff_status.admin_order_field = 'staff'
+    get_staff_status.short_description = 'staff status'
 
     def get_role(self, obj):
         return obj.profile.role
