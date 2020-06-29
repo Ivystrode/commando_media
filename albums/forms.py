@@ -7,7 +7,7 @@ class AlbumCreationForm(forms.ModelForm):
 
     class Meta:
         model = Album # the model this form interacts with
-        fields = ['title', 'coverpic'] # makes the title and initial (cover) pic
+        fields = ['title', 'coverpic', 'open'] # makes the title and initial (cover) pic
 
 class PhotoUploadForm(forms.ModelForm):
     # photo = forms.ImageField(label='photo')

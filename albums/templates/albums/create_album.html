@@ -18,6 +18,7 @@
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{form | crispy}}
+                    <p>Select 'open' to allow other users to add pictures to your album</p>
                     <p></p>
                     <button type="submit" class="ui secondary button">Post</button>                        
                 </form>

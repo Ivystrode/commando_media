@@ -76,7 +76,7 @@ def add_idea(request):
 
                 ideaname = form.cleaned_data.get('title')
                 print(form.cleaned_data)
-                messages.success(request, f'idea created: {ideaname}')
+                messages.success(request, f'Idea created: {ideaname}')
                 return redirect('/ideas')
         else:
             form = IdeaCreationForm()
