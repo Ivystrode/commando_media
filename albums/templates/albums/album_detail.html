@@ -7,7 +7,7 @@
 
 {% block title %}{{album.title}}{% endblock %}
 {% block page_title %}{{album.title}}{% endblock %}
-{% block subtitle %}Created by <a class="profile-link" href="/profile/{{album.created_by}}">{{album.created_by}}</a> | {{album.time}}{% endblock %}
+{% block subtitle %}Created by <a class="profile-link" href="/profile/{{album.created_by}}">{{album.created_by}}</a> | {{album.time}} {% if album.open %} | Open to all users{% endif %}{% endblock %}
 </head>
 {% block content %}     
 

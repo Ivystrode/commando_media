@@ -30,6 +30,18 @@ body {
     border-radius: 20%;
     border-width: 5px;
 }
+
+.formfield {
+    margin-bottom: 10px;
+    /* align-items: flex-start; */
+    /* text-align: left; */
+}
+.formfield h4 {
+    margin-bottom: 5px;
+}
+
+
+
 .logout-menu {
     z-index: 1;
     position: relative;

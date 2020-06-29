@@ -23,7 +23,18 @@
     <div class="user-form">
         <form method="POST">
             {% csrf_token %}
-            {{form|crispy}}
+
+            {% for field in form.visible_fields %}
+            <div class="formfield">
+                <h4>{{field.label_tag}}</h4>
+                {% if field.label_tag == 'Username' %}
+                {{field.help_text}}
+                {% endif %}
+                {{field}}
+                {{field.errors}}
+            </div>
+            {% endfor %}
+
             <p></p>
             <p>Already have an account? <a href="{% url 'login' %}">Log In</a></p>
             <p></p>

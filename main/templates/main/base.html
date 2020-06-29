@@ -17,6 +17,7 @@
     </head>
     <body>
 
+        {% if request.user.profile.approved %}
         <div class="sidenav" id="sidenav">
             <div class="sidenav-links">
                 <a class="sidebutton normal" href="/notices">Notices</a>
@@ -34,6 +35,16 @@
                 </div>
             </div>
         </div>
+
+        {% else %}
+        <div class="sidenav">
+            <div class="sidenav-links">
+                <a class="sidebutton normal" href="/logout">Logout</a>
+            </div>
+        </div>
+
+
+        {% endif %}
 
         <div id="topbar">
             <div id="sitetitle">

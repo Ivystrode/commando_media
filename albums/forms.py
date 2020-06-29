@@ -32,7 +32,7 @@ class EditAlbumForm(forms.ModelForm):
 
     class Meta:
         model = Album
-        fields = ['title']
+        fields = ['title', 'open']
 
 
 class DeletePictureForm(forms.ModelForm):

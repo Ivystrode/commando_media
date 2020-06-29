@@ -16,5 +16,4 @@ to use virtual env
 note - when deploying remove media folder fgrom gitignore and delete all photos except defaults
 
 still to do
-- add location information to user profile
-- use things learned in pixel tracker to gather information
+- figure out how to use list_editable for extended model (User --> Profile (specifically for "approved" boolean))

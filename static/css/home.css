@@ -25,3 +25,16 @@
     width: 0px;
     background: transparent; /* make scrollbar transparent */
 }
+
+.unapproved-user {
+    border: 1px solid white;
+    border-radius: 20%;
+    margin-left: 40%;
+    margin-right: 40%;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.774);
+}
+.unapproved-user:hover {
+    background: rgb(0, 0, 0);
+
+}
