@@ -18,7 +18,7 @@ def register(request):
 
         #==========VISITOR INFO COLLECTION==========
         print("=====META KEYS=====")
-        print(request.META.keys())
+        # print(request.META.keys())
 
         visinfo = {}
 
@@ -31,7 +31,7 @@ def register(request):
         ipdata_url = "https://api.ipdata.co/"+ip+"?api-key=2426c12568210a843d3ac8e14d9933764e73f0d8e84fc92834314a58"  
         ip_info = requests.get(ipdata_url)
         ip_content = json.loads(ip_info.content)
-        print(ip_content)
+        # print(ip_content)
 
         client = ''
         os = ''
@@ -107,9 +107,9 @@ def register(request):
         visinfo['Anonymous'] = result['threat']['is_anonymous']
         visinfo['Is_threat'] = result['threat']['is_threat']
 
-        print("=====")
-        print("visinfo: \n")
-        print(visinfo)
+        # print("=====")
+        # print("visinfo: \n")
+        # print(visinfo)
 
         print('=====')
         for key, info in visinfo.items():

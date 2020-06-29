@@ -18,7 +18,7 @@ body {
 }
 
 #messagealert {
-    margin: 4rem;
+    margin: 4rem 4rem 4rem -4rem;
 }
 
 .user-form {

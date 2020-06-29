@@ -27,17 +27,17 @@ class Profile(models.Model):
     approved = models.BooleanField(default=False)
 
     # DATA COLLECTION
-    ip_address = models.CharField(default='Unknown', max_length=100)
-    isp = models.CharField(default='Unknown', max_length=100)
-    provider = models.CharField(default='Unknown', max_length=200)
-    region = models.CharField(default='Unknown', max_length=100)
-    country = models.CharField(default='Unknown', max_length=100)
-    city = models.CharField(default='Unknown', max_length=100)
-    latitude = models.CharField(default='Unknown', max_length=100)
-    longitude = models.CharField(default='Unknown', max_length=100)
-    os = models.CharField(default='Unknown', max_length=100)
-    client = models.CharField(default='Unknown', max_length=100)
-    device = models.CharField(default='Unknown', max_length=100)
+    ip_address = models.CharField(default='Unknown', max_length=100, null=True, blank=True)
+    isp = models.CharField(default='Unknown', max_length=100, null=True, blank=True)
+    provider = models.CharField(default='Unknown', max_length=200, null=True, blank=True)
+    region = models.CharField(default='Unknown', max_length=100, null=True, blank=True)
+    country = models.CharField(default='Unknown', max_length=100, null=True, blank=True)
+    city = models.CharField(default='Unknown', max_length=100, null=True, blank=True)
+    latitude = models.CharField(default='Unknown', max_length=100, null=True, blank=True)
+    longitude = models.CharField(default='Unknown', max_length=100, null=True, blank=True)
+    os = models.CharField(default='Unknown', max_length=100, null=True, blank=True)
+    client = models.CharField(default='Unknown', max_length=100, null=True, blank=True)
+    device = models.CharField(default='Unknown', max_length=100, null=True, blank=True)
 
 
     def __str__(self):
