@@ -18,13 +18,31 @@ def register(request):
 
         #==========VISITOR INFO COLLECTION==========
         print("=====META KEYS=====")
-        # print(request.META.keys())
+        print(request.META.keys())
 
         visinfo = {}
 
         # Getting the IP
         if 'HTTP_X_FORWARDED_FOR' in request.META.keys() and request.META['HTTP_X_FORWARDED_FOR'] is not None:
             ip = request.META['HTTP_X_FORWARDED_FOR']
+        elif 'X_FORWARDED_FOR' in request.META.keys() and request.META['X_FORWARDED_FOR'] is not None:
+            ip = request.META['X_FORWARDED_FOR']
+        elif 'HTTP_CLIENT_IP' in request.META.keys() and request.META['HTTP_CLIENT_IP'] is not None:
+            ip = request.META['HTTP_CLIENT_IP']
+        elif 'HTTP_X_REAL_IP' in request.META.keys() and request.META['HTTP_X_REAL_IP'] is not None:
+            ip = request.META['HTTP_X_REAL_IP']
+        elif 'HTTP_X_FORWARDED' in request.META.keys() and request.META['HTTP_X_FORWARDED'] is not None:
+            ip = request.META['HTTP_X_FORWARDED']
+        elif 'HTTP_X_CLUSTER_CLIENT_IP' in request.META.keys() and request.META['HTTP_X_CLUSTER_CLIENT_IP'] is not None:
+            ip = request.META['HTTP_X_CLUSTER_CLIENT_IP']
+        elif 'HTTP_FORWARDED_FOR' in request.META.keys() and request.META['HTTP_FORWARDED_FOR'] is not None:
+            ip = request.META['HTTP_FORWARDED_FOR']
+        elif 'HTTP_FORWARDED' in request.META.keys() and request.META['HTTP_FORWARDED'] is not None:
+            ip = request.META['HTTP_FORWARDED']
+        elif 'HTTP_VIA' in request.META.keys() and request.META['HTTP_VIA'] is not None:
+            ip = request.META['HTTP_VIA']
+        elif 'REMOTE_ADDR' in request.META.keys() and request.META['REMOTE_ADDR'] is not None:
+            ip = request.META['REMOTE_ADDR']
         else:
             ip = ''    
         print("=====IP content=====")
@@ -164,9 +182,55 @@ def register(request):
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username} - {new_user.service_number}. Your account will have limited access until it is approved by an administrator.')
             return redirect('/login')
-    else:
+    else:        
         form = UserRegisterForm()
         d_form = ProfileForm()
+
+        # print(request.META.keys())
+        # print('IP keys================')
+
+
+        # if 'HTTP_X_FORWARDED_FOR' in request.META.keys() and request.META['HTTP_X_FORWARDED_FOR'] is not None:
+        #     ip = request.META['HTTP_X_FORWARDED_FOR']
+        #     print(['HTTP_X_FORWARDED_FOR'])
+        #     print(request.META['HTTP_X_FORWARDED_FOR'])
+        # elif 'X_FORWARDED_FOR' in request.META.keys() and request.META['X_FORWARDED_FOR'] is not None:
+        #     ip = request.META['X_FORWARDED_FOR']
+        #     print(['X_FORWARDED_FOR'])
+        #     print(request.META['X_FORWARDED_FOR'])
+        # elif 'HTTP_CLIENT_IP' in request.META.keys() and request.META['HTTP_CLIENT_IP'] is not None:
+        #     ip = request.META['HTTP_CLIENT_IP']
+        #     print(['HTTP_CLIENT_IP'])
+        #     print(request.META['HTTP_CLIENT_IP'])
+        # elif 'HTTP_X_REAL_IP' in request.META.keys() and request.META['HTTP_X_REAL_IP'] is not None:
+        #     ip = request.META['HTTP_X_REAL_IP']
+        #     print(['HTTP_X_REAL_IP'])
+        #     print(request.META['HTTP_X_REAL_IP'])
+        # elif 'HTTP_X_FORWARDED' in request.META.keys() and request.META['HTTP_X_FORWARDED'] is not None:
+        #     ip = request.META['HTTP_X_FORWARDED']
+        #     print(['HTTP_X_FORWARDED'])
+        #     print(request.META['HTTP_X_FORWARDED'])
+        # elif 'HTTP_X_CLUSTER_CLIENT_IP' in request.META.keys() and request.META['HTTP_X_CLUSTER_CLIENT_IP'] is not None:
+        #     ip = request.META['HTTP_X_CLUSTER_CLIENT_IP']
+        #     print(['HTTP_X_CLUSTER_CLIENT_IP'])
+        #     print(request.META['HTTP_X_CLUSTER_CLIENT_IP'])
+        # elif 'HTTP_FORWARDED_FOR' in request.META.keys() and request.META['HTTP_FORWARDED_FOR'] is not None:
+        #     ip = request.META['HTTP_FORWARDED_FOR']
+        #     print(['HTTP_FORWARDED_FOR'])
+        #     print(request.META['HTTP_FORWARDED_FOR'])
+        # elif 'HTTP_FORWARDED' in request.META.keys() and request.META['HTTP_FORWARDED'] is not None:
+        #     ip = request.META['HTTP_FORWARDED']
+        #     print(request.META['HTTP_FORWARDED'])
+        # elif 'HTTP_VIA' in request.META.keys() and request.META['HTTP_VIA'] is not None:
+        #     ip = request.META['HTTP_VIA']
+        #     print(['HTTP_VIA'])
+        #     print(request.META['HTTP_VIA'])
+        # elif 'REMOTE_ADDR' in request.META.keys() and request.META['REMOTE_ADDR'] is not None:
+        #     ip = request.META['REMOTE_ADDR']
+        #     print(['REMOTE_ADDR'])
+        #     print(request.META['REMOTE_ADDR'])
+        # else:
+        #     ip = ''   
 
 
 
